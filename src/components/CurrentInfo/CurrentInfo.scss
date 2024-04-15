@@ -1,0 +1,53 @@
+img {
+    width: 50px;
+    height: auto;
+}
+
+
+.current-info__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 20px 37px;
+    font-weight: 600;
+    font-size: 16px;
+
+    .grid__item {
+        padding: 12px 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        border-radius: 30px;
+        width: 265px;
+        background: #161616;
+
+        &__name {
+            font-weight: bold;
+        }
+
+        &__img {
+            width: 20px;
+            /* Adjust according to your design */
+            height: auto;
+            margin-top: 5px;
+            /* Adjust according to your design */
+        }
+
+        &__info {
+        }
+
+        &__sun {
+            display: flex;
+            gap: 34px;
+
+            div {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+        }
+    }
+}

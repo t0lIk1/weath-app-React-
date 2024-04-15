@@ -1,0 +1,50 @@
+.enter {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    border-radius: 30px;
+    background: #161616;
+    padding: 45px 35px;
+
+    &__title {
+        font-weight: 500;
+        font-size: 60px;
+    }
+
+    &__text {
+        font-weight: 500;
+        font-size: 20px;
+        margin: 15px 0 52px;
+
+        .text__link {
+            color: #ffffff;
+            text-decoration: underline;
+
+            &:hover {
+                color: #a2a2a2;
+            }
+        }
+    }
+
+
+    &__input {
+        color: #fff;
+        border-radius: 20px;
+        width: 100%;
+        height: 38px;
+        background: #333232;
+        padding: 5px 15px;
+
+        &::placeholder {
+            font-weight: 500;
+            font-size: 20px;
+            color: white;
+        }
+    }
+    .incorrect{
+        box-shadow: 0 0 50px -24px #ff0018;
+    }
+    .correct {
+        box-shadow: 0 0 50px -24px #04d940;
+    }
+}
