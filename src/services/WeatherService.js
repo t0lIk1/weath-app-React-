@@ -51,18 +51,53 @@ class WeatherService {
         return data;
     }
 
+    translateTime = (time) => {
+        const date = new Date(time * 1000);
+        const hours = date.getUTCHours().toString().padStart(2, '0');
+        const minutes = date.getUTCMinutes().toString().padStart(2, '0');
+        return `${hours}:${minutes}`;
+    }
 
+    translateDeg = (deg) => {
+        let direction = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+        if (deg === 360) {
+            return direction[0];
+        }
+        let significance = Math.round(deg / 45);
+        return direction[significance];
+    }
+
+    translateDate(utcDate) {
+        const months = [
+            'Jan', 'Feb', 'Mar', 'Apr', 'May', 'June',
+            'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+        ];
+
+        const daysOfWeek = [
+            'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'
+        ];
+
+
+
+        const date = new Date(utcDate * 1000);
+        const dayOfMonth = date.getUTCDate();
+        const month = months[date.getUTCMonth()];
+        const dayOfWeek = daysOfWeek[date.getUTCDay()];
+
+        return `${dayOfWeek}, ${month} ${dayOfMonth} `;
+    }
 
     _currentTransform = (weather) => {
         return {
-            sunrise: weather.sunrise,
-            sunset: weather.sunset,
-            temp: weather.temp,
+            sunrise: this.translateTime(weather.sunrise),
+            sunset: this.translateTime(weather.sunset),
+            temp: Math.round(weather.temp),
+            feelsLike: Math.round(weather.feels_like),
             pressure: weather.pressure,
             humidity: weather.humidity,
-            uvi: weather.uvi,
+            uvi: Math.round(weather.uvi),
             windSpeed: weather.wind_speed,
-            windDeg: weather.wind_deg,
+            windDeg: this.translateDeg(weather.wind_deg),
             weather: weather.weather[0].main,
             img: getImg(weather.weather[0].main)
         };
@@ -70,9 +105,9 @@ class WeatherService {
 
     _hourlyTransform = (weather) => {
         return {
-            temp: weather.temp,
-            dt: weather.dt,
-            windDeg: weather.wind_deg,
+            temp: Math.round(weather.temp),
+            dt: this.translateTime(weather.dt),
+            windDeg: this.translateDeg(weather.wind_deg),
             weather: weather.weather[0].main,
             img: getImg(weather.weather[0].main)
         };
@@ -80,8 +115,8 @@ class WeatherService {
 
     _dailyTransform = (weather) => {
         return {
-            dt: weather.dt,
-            temp: weather.temp,
+            dt: this.translateDate(weather.dt),
+            temp: Math.round(weather.temp.day),
             weather: weather.weather[0].main,
             img: getImg(weather.weather[0].main)
         };
