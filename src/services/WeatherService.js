@@ -1,3 +1,5 @@
+import { getImg } from '../components/Data/getImg';
+
 class WeatherService {
     _apiKey = '9ee379df28e24468b01dce21275faecc';
     _apiBase = 'https://api.openweathermap.org/data/3.0/onecall';
@@ -14,13 +16,13 @@ class WeatherService {
             console.log(this._lat)
             this.getWeather();
         }
-    
+
         const error = () => {
             console.log("Unable to retrieve your location");
             console.log(this._lat)
             this.getWeather();
         }
-    
+
         if (!navigator.geolocation) {
             console.log("Geolocation is not supported by your browser");
         } else {
@@ -49,6 +51,8 @@ class WeatherService {
         return data;
     }
 
+
+
     _currentTransform = (weather) => {
         return {
             sunrise: weather.sunrise,
@@ -59,7 +63,8 @@ class WeatherService {
             uvi: weather.uvi,
             windSpeed: weather.wind_speed,
             windDeg: weather.wind_deg,
-            weather: weather.weather[0].description,
+            weather: weather.weather[0].main,
+            img: getImg(weather.weather[0].main)
         };
     }
 
@@ -68,7 +73,8 @@ class WeatherService {
             temp: weather.temp,
             dt: weather.dt,
             windDeg: weather.wind_deg,
-            weather: weather.weather[0].description,
+            weather: weather.weather[0].main,
+            img: getImg(weather.weather[0].main)
         };
     }
 
@@ -76,7 +82,8 @@ class WeatherService {
         return {
             dt: weather.dt,
             temp: weather.temp,
-            weather: weather.weather[0].description,
+            weather: weather.weather[0].main,
+            img: getImg(weather.weather[0].main)
         };
     }
 }
