@@ -1,5 +1,5 @@
 import BasicInfo from "../BasicInfo/BasicInfo";
-import EntWindow from "../EntWindow/EntWindow";
+// import EntWindow from "../EntWindow/EntWindow";
 import HorlyInfo from "../HorlyInfo/HorlyInfo";
 import CurrentInfo from "../CurrentInfo/CurrentInfo";
 
@@ -13,7 +13,6 @@ const App = () => {
                 <HorlyInfo />
                 <CurrentInfo />
             </div >
-            {/* <EntWindow /> */}
         </div >
     )
 }
