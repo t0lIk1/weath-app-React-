@@ -1,0 +1,90 @@
+.swiper {
+    position: relative;
+    overflow: hidden;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    border-radius: 30px;
+    width: 870px;
+    height: 100%;
+    background: #161616;
+
+}
+
+.swiper-wrapper {
+    display: flex;
+    align-items: center;
+    padding: 21px 46px;
+    height: 100%;
+}
+
+.swiper-backface-hidden .swiper-slide {
+    backface-visibility: hidden;
+}
+
+
+
+.swiper-slide {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+
+
+}
+
+.swiper-slide__days {
+    font-weight: 700;
+    font-size: 30px;
+}
+
+.swiper-slide__time {
+    font-weight: 700;
+    font-size: 24px;
+}
+
+.swiper-slide__ico-direct {
+    width: 45px;
+}
+
+.swiper-slide__direction {
+    font-weight: 500;
+    font-size: 20px;
+}
+
+.swiper-slide__weather-img {
+    width: 90px;
+}
+
+.swiper-slide__temp {
+    font-weight: 700;
+    font-size: 20px;
+}
+
+/* Add arrow icons for previous and next buttons */
+.swiper-button-prev::before,
+.swiper-button-next::before {
+    content: "";
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-top: 2px solid #fff;
+    border-right: 2px solid #fff;
+    transform: rotate(-45deg);
+    margin-right: 6px;
+}
+
+.swiper-button-next::before {
+    transform: rotate(135deg);
+    margin-right: 0;
+    margin-left: 6px;
+}
+
+/* Style previous and next buttons */
+.swiper-button-prev,
+.swiper-button-next {
+    color: #fff;
+    width: 43px;
+    height: 0px;
+}
