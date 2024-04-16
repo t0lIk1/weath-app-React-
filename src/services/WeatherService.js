@@ -1,4 +1,3 @@
-import { getImg } from '../components/Data/getImg';
 
 class WeatherService {
     _apiKey = '9ee379df28e24468b01dce21275faecc';
@@ -46,8 +45,9 @@ class WeatherService {
         const current = this._currentTransform(res.current);
         const hourly = res.hourly.map(this._hourlyTransform);
         const daily = res.daily.map(this._dailyTransform);
+        console.log(current.img)
         const data = { current: current, hourly: hourly, daily: daily }
-        console.log(data);
+
         return data;
     }
 
@@ -91,6 +91,7 @@ class WeatherService {
         return {
             sunrise: this.translateTime(weather.sunrise),
             sunset: this.translateTime(weather.sunset),
+            dt: this.translateDate(weather.dt),
             temp: Math.round(weather.temp),
             feelsLike: Math.round(weather.feels_like),
             pressure: weather.pressure,
@@ -98,8 +99,8 @@ class WeatherService {
             uvi: Math.round(weather.uvi),
             windSpeed: weather.wind_speed,
             windDeg: this.translateDeg(weather.wind_deg),
-            weather: weather.weather[0].main,
-            img: getImg(weather.weather[0].main)
+            main: weather.weather[0].main,
+
         };
     }
 
@@ -108,8 +109,8 @@ class WeatherService {
             temp: Math.round(weather.temp),
             dt: this.translateTime(weather.dt),
             windDeg: this.translateDeg(weather.wind_deg),
-            weather: weather.weather[0].main,
-            img: getImg(weather.weather[0].main)
+            main: weather.weather[0].main,
+
         };
     }
 
@@ -117,8 +118,8 @@ class WeatherService {
         return {
             dt: this.translateDate(weather.dt),
             temp: Math.round(weather.temp.day),
-            weather: weather.weather[0].main,
-            img: getImg(weather.weather[0].main)
+            main: weather.weather[0].main,
+
         };
     }
 }

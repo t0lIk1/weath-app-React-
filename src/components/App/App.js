@@ -4,11 +4,11 @@ import HorlyInfo from "../HorlyInfo/HorlyInfo";
 import CurrentInfo from "../CurrentInfo/CurrentInfo";
 import WeatherService from "../../services/WeatherService";
 
-const weatherService = new WeatherService();
+// const weatherService = new WeatherService();
 
 const App = () => {
     if (localStorage.getItem("apikey")) {
-        console.log(weatherService.getPosition());
+        // console.log(weatherService.getPosition());
         return (
             <div className="container">
                 <BasicInfo />
