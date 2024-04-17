@@ -12,27 +12,29 @@ export const getImg = (weather) => {
     const value = weather.toLowerCase();
     switch (value) {
         case 'clouds':
-            return { img: cloudyImg };
+            return cloudyImg;
         case 'overcast':
-            return { img: overcastImg };
+            return overcastImg;
         case 'rain':
         case 'drizzle':
-            return { img: rainImg };
+            return rainImg;
         case 'snow':
-            return { img: snowImg };
+            return snowImg;
         case 'thunderstorm':
-            return { img: thunderImg };
+            return thunderImg;
         case 'storm':
-            return { img: rainThunderImg };
+            return rainThunderImg;
         case 'fog':
         case 'mist':
         case 'haze':
-            return { img: fogImg };
+            return fogImg;
         case 'sleet':
-            return { img: sleetImg };
+            return sleetImg;
         case 'clear':
-            return { img: clearImg };
+            return clearImg;
         default:
-            return { img: null }; // Возвращаем null в случае отсутствия изображения
+            return null;
     }
 };
+
+

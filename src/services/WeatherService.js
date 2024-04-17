@@ -1,3 +1,4 @@
+import { getImg } from '../components/Data/getImg'
 
 class WeatherService {
     _apiKey = '9ee379df28e24468b01dce21275faecc';
@@ -100,7 +101,7 @@ class WeatherService {
             windSpeed: weather.wind_speed,
             windDeg: this.translateDeg(weather.wind_deg),
             main: weather.weather[0].main,
-
+            img: getImg(weather.weather[0].main),
         };
     }
 
@@ -110,7 +111,7 @@ class WeatherService {
             dt: this.translateTime(weather.dt),
             windDeg: this.translateDeg(weather.wind_deg),
             main: weather.weather[0].main,
-
+            img: getImg(weather.weather[0].main),
         };
     }
 
@@ -119,7 +120,7 @@ class WeatherService {
             dt: this.translateDate(weather.dt),
             temp: Math.round(weather.temp.day),
             main: weather.weather[0].main,
-
+            img: getImg(weather.weather[0].main),
         };
     }
 }

@@ -1,11 +1,15 @@
 
 
 body {
+    display: flex;
+    justify-content: center; // Centers horizontally
+    align-items: center; // Centers vertically
+    min-height: 100vh; // Use viewport height to ensure full height
+    margin: 0; 
     font-family: "Poppins", sans-serif;
     color: #fff;
     background: #1E1E1E;
-    width: 100%;
-    height: 100%;
+   
 }
 
 /*Обнуление*/
@@ -105,10 +109,7 @@ h6 {
 .container {
     display: flex;
     gap: 21px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+   
     max-width: 1437px;
 }
 
