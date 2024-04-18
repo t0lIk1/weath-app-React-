@@ -1,13 +1,18 @@
-// BasicInfo.js
-
 import React, { Component } from 'react';
-import './BasicInfo.scss';
 import geo from '../../resources/img/svg/icons8-маркер-50 2.svg';
 import magi from '../../resources/img/svg/icons8-лупа-64 3.svg';
 import WeatherService from '../../services/WeatherService';
 import Spinner from '../Spiner/Spiner';
 import ErrorMassege from '../ErrorMassage/ErrorMassage';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+
+// import required modules
+import { Pagination, Navigation } from 'swiper/modules';
+import './BasicInfo.scss';
 
 
 class BasicInfo extends Component {
@@ -57,7 +62,6 @@ class BasicInfo extends Component {
     const spinner = loading ? <Spinner /> : null;
     const content = !(loading || error) ? <View weather={weather} /> : null;
 
-
     return (
       <div className="info__block">
         {errorMassage}
@@ -68,14 +72,7 @@ class BasicInfo extends Component {
   }
 }
 
-
-
-export default BasicInfo;
-
-
-
 const View = ({ weather }) => {
-
   return (
     <>
       <form action="" className="search-form">
@@ -97,17 +94,31 @@ const View = ({ weather }) => {
 
       <div className="line"></div>
 
-      <div className="days-forecast">
-        <ul className="days-forecast__list">
-          {weather.daily.map((day, index) => (
-            <li className="days-forecast__item" key={index}>
-              <img src={(day.img)} alt="weat" className="days-forecast__img" />
-              <span className="days-forecast__temp text">{day.temp}°C</span>
-              <span className="days-forecast__date text">{day.dt}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
+
+      <Swiper
+        direction={'vertical'}
+        pagination={{
+          clickable: true,
+        }}
+        navigation={{
+          prevEl: '.swiper-button-prev', // Класс кнопки "назад"
+          nextEl: '.swiper-button-next', // Класс кнопки "вперед"
+        }}
+        modules={[Pagination, Navigation]}
+        slidesPerView={2}
+        spaceBetween={30}
+        className="days-forecast__list"
+      >
+        {weather.daily.map((day, index) => (
+          <SwiperSlide className="days-forecast__item" key={index}>
+            <img src={day.img} alt="weather" className="days-forecast__img" />
+            <span className="days-forecast__temp text">{day.temp}°C</span>
+            <span className="days-forecast__date text">{day.dt}</span>
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </>
   )
 }
+
+export default BasicInfo;
