@@ -4,14 +4,8 @@ import magi from '../../resources/img/svg/icons8-лупа-64 3.svg';
 import WeatherService from '../../services/WeatherService';
 import Spinner from '../Spiner/Spiner';
 import ErrorMassege from '../ErrorMassage/ErrorMassage';
-import { Swiper, SwiperSlide } from 'swiper/react';
 
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
 
-// import required modules
-import { Pagination, Navigation } from 'swiper/modules';
 import './BasicInfo.scss';
 
 
@@ -95,28 +89,24 @@ const View = ({ weather }) => {
       <div className="line"></div>
 
 
-      <Swiper
-        direction={'vertical'}
-        pagination={{
-          clickable: true,
-        }}
-        navigation={{
-          prevEl: '.swiper-button-prev', // Класс кнопки "назад"
-          nextEl: '.swiper-button-next', // Класс кнопки "вперед"
-        }}
-        modules={[Pagination, Navigation]}
-        slidesPerView={2}
-        spaceBetween={30}
-        className="days-forecast__list"
-      >
-        {weather.daily.map((day, index) => (
-          <SwiperSlide className="days-forecast__item" key={index}>
-            <img src={day.img} alt="weather" className="days-forecast__img" />
-            <span className="days-forecast__temp text">{day.temp}°C</span>
-            <span className="days-forecast__date text">{day.dt}</span>
-          </SwiperSlide>
-        ))}
-      </Swiper>
+
+      <div className="days-forecast">
+        <div className="days-forecast__list">
+
+          {/* Add top navigation buttons */}
+          <div className="swiper-button-prev top" style={{ transform: 'rotate(90deg)', color: '#fff' }}></div>
+          <div className="swiper-button-next top" style={{ transform: 'rotate(90deg)', color: '#fff' }}></div>
+
+          {weather.daily.map((day, index) => (
+            <div className="days-forecast__item" key={index}>
+              <img src={day.img} alt="weather" className="days-forecast__img" />
+              <span className="days-forecast__temp text"> {day.temp}°C</span>
+              <span className="days-forecast__date text">{day.dt}</span>
+            </div>
+          ))}
+
+        </div>
+      </div>
     </>
   )
 }

@@ -5,6 +5,12 @@
     border-radius: 30px;
     background: #161616;
     padding: 45px 35px;
+    transition: 0.3s ease-in-out;
+
+    .incorrect {
+        box-shadow: 0 0 50px -24px #ff0018;
+
+    }
 
     &__title {
         font-weight: 500;
@@ -40,11 +46,14 @@
             font-size: 20px;
             color: white;
         }
+
     }
-    .incorrect{
-        box-shadow: 0 0 50px -24px #ff0018;
-    }
-    .correct {
-        box-shadow: 0 0 50px -24px #04d940;
-    }
+}
+
+.incorrect {
+    box-shadow: 0 0 50px -24px #ff0018;
+}
+
+.correct {
+    box-shadow: 0 0 50px -24px #04d940;
 }

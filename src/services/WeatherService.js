@@ -1,7 +1,7 @@
 import { getImg } from '../components/Data/getImg'
 
 class WeatherService {
-    _apiKey = '9ee379df28e24468b01dce21275faecc';
+    // _apiKey = '9ee379df28e24468b01dce21275faecc';
     _apiBase = 'https://api.openweathermap.org/data/3.0/onecall';
     _lat = '52.0944791';
     _lon = '23.759782';
@@ -38,17 +38,19 @@ class WeatherService {
 
         return await res.json();
     }
-
-    getWeather = async () => {
-        const apiUrl = `${this._apiBase}?lat=${this._lat}&lon=${this._lon}&units=${this._units}&appid=${this._apiKey}`;
+    // getCoord = async (town) => {
+    //     const apiUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${town}&limit=${this._limit}&appid=9ee379df28e24468b01dce21275faecc`;
+    //     const res = await this.getResource(apiUrl);
+    //     return res.map(this._townList);
+    // }
+    getWeather = async (apikey) => {
+        const apiUrl = `${this._apiBase}?lat=${this._lat}&lon=${this._lon}&units=${this._units}&appid=${apikey}`;
         console.log(apiUrl);
         const res = await this.getResource(apiUrl);
         const current = this._currentTransform(res.current);
         const hourly = res.hourly.map(this._hourlyTransform);
         const daily = res.daily.map(this._dailyTransform);
-        console.log(current.img)
         const data = { current: current, hourly: hourly, daily: daily }
-
         return data;
     }
 
@@ -122,6 +124,16 @@ class WeatherService {
             main: weather.weather[0].main,
             img: getImg(weather.weather[0].main),
         };
+    }
+
+    _townList = (data) => {
+        return {
+            lat: data.lat,
+            lon: data.lon,
+            country: data.country,
+            name: data.local_names.en
+        }
+
     }
 }
 
