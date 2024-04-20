@@ -1,28 +1,32 @@
+// EntWindow.js
+
 import React, { Component } from 'react';
 import './EntWindow.scss';
-import WeatherService from '../../services/WeatherService'
+import WeatherService from '../../services/WeatherService';
 
 class EntWindow extends Component {
-    weatherService = new WeatherService();
-    state = {
-        className: '',
-        displayStyle: 'flex',
-        value: '',
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            className: '',
+            displayStyle: 'flex',
+            value: '',
+        };
+        this.weatherService = new WeatherService();
+    }
 
-    onCorrect = () => {
-        localStorage.setItem('apikey', this.state.value);
+    onCorrect = (data) => {
+        this.props.onApiKeyChange(this.state.value);
+        this.props.onWeatherData(data);
         this.setState({
             className: 'correct',
-        })
+        });
         setTimeout(() => {
             this.setState({
                 displayStyle: 'none',
             });
-        }, 3000)
-
+        }, 1500);
     };
-
 
     onError = () => {
         this.setState({ className: 'incorrect' });
@@ -36,10 +40,13 @@ class EntWindow extends Component {
     };
 
     handleKeyDown = (e) => {
-        if (e.key === "Enter") {
-            this.weatherService.getWeather(this.state.value)
-                .then(this.onCorrect)
-                .catch(this.onError)
+        if (e.key === 'Enter') {
+            if (this.state.value.trim() !== '') {
+                this.weatherService
+                    .getWeather(this.state.value)
+                    .then(this.onCorrect)
+                    .catch(this.onError);
+            }
         }
     };
 
@@ -48,10 +55,15 @@ class EntWindow extends Component {
         return (
             <div className={`enter ${className}`} style={{ display: displayStyle }}>
                 <h2 className="enter__title">Enter Api key</h2>
-                <span className="enter__text">The key can be obtained from <a className="text__link" href="https://openweathermap.org/">openweathermap</a></span>
+                <span className="enter__text">
+                    The key can be obtained from{' '}
+                    <a className="text__link" href="https://openweathermap.org/">
+                        openweathermap
+                    </a>
+                </span>
                 <input
                     type="text"
-                    placeholder='Api key'
+                    placeholder="Api key"
                     value={value}
                     className={`enter__input ${className}`}
                     onChange={this.handleChange}
@@ -60,6 +72,6 @@ class EntWindow extends Component {
             </div>
         );
     }
-};
+}
 
 export default EntWindow;

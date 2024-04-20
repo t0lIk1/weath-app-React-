@@ -1,7 +1,7 @@
 import { getImg } from '../components/Data/getImg'
 
 class WeatherService {
-    // _apiKey = '9ee379df28e24468b01dce21275faecc';
+    _apiKey = '9ee379df28e24468b01dce21275faecc';
     _apiBase = 'https://api.openweathermap.org/data/3.0/onecall';
     _lat = '52.0944791';
     _lon = '23.759782';
@@ -38,12 +38,12 @@ class WeatherService {
 
         return await res.json();
     }
-    // getCoord = async (town) => {
-    //     const apiUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${town}&limit=${this._limit}&appid=9ee379df28e24468b01dce21275faecc`;
-    //     const res = await this.getResource(apiUrl);
-    //     return res.map(this._townList);
-    // }
-    getWeather = async (apikey) => {
+    getCoord = async (town) => {
+        const apiUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${town}&limit=${this._limit}&appid=9ee379df28e24468b01dce21275faecc`;
+        const res = await this.getResource(apiUrl);
+        return res.map(this._townList);
+    }
+    getWeather = async (apikey = this._apiKey) => {
         const apiUrl = `${this._apiBase}?lat=${this._lat}&lon=${this._lon}&units=${this._units}&appid=${apikey}`;
         console.log(apiUrl);
         const res = await this.getResource(apiUrl);

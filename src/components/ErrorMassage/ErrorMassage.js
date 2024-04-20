@@ -1,8 +1,8 @@
-import img from './150 - error.gif'
+import img from './150 - error.png'
 
 const ErrorMassege = () =>{
     return (
-        <img src={img} alt="error gif" />
+        <img src={img} style={{width: '100%' }} alt="error gif" />
     )
 }
 

@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import geo from '../../resources/img/svg/icons8-маркер-50 2.svg';
-import magi from '../../resources/img/svg/icons8-лупа-64 3.svg';
 import WeatherService from '../../services/WeatherService';
 import Spinner from '../Spiner/Spiner';
 import ErrorMassege from '../ErrorMassage/ErrorMassage';
-
+import BasicInput from '../BasicInput/BasicInput';
 
 import './BasicInfo.scss';
 
@@ -18,37 +16,37 @@ class BasicInfo extends Component {
     loading: true,
   }
 
-  onError = () => {
-    this.setState({
-      error: true,
-      loading: false
-    });
-  }
+  // onError = () => {
+  //   this.setState({
+  //     error: true,
+  //     loading: false
+  //   });
+  // }
 
-  onLoading = () => {
-    this.setState({
-      loading: true,
-    })
-  }
+  // onLoading = () => {
+  //   this.setState({
+  //     loading: true,
+  //   })
+  // }
 
-  onLoad = (weather) => {
-    this.setState({
-      weather,
-      loading: false
-    });
-    console.log(this.state.weather);
-  }
+  // onLoad = (weather) => {
+  //   this.setState({
+  //     weather,
+  //     loading: false
+  //   });
+  //   console.log(this.state.weather);
+  // }
 
-  updateWeather = () => {
-    this.onLoading();
-    this.weatherService.getWeather()
-      .then(this.onLoad)
-      .catch(this.onError);
-  }
+  // updateWeather = () => {
+  //   this.onLoading();
+  //   this.weatherService.getWeather(localStorage.getItem('apikey'))
+  //     .then(this.onLoad)
+  //     .catch(this.onError);
+  // }
 
-  componentDidMount() {
-    this.updateWeather();
-  }
+  // componentDidMount() {
+  //   this.updateWeather();
+  // }
 
   render() {
     const { weather, loading, error } = this.state;
@@ -69,11 +67,7 @@ class BasicInfo extends Component {
 const View = ({ weather }) => {
   return (
     <>
-      <form action="" className="search-form">
-        <img src={magi} alt="magi" className="search-form__img" />
-        <input type="text" className="search-form__input" placeholder="Search for place" />
-        <img src={geo} alt="geo" className="search-form__img-mark" />
-      </form>
+      <BasicInput />
 
       <div className="basic">
         <img src={(weather.current.img)} alt="weather" className="basic__img" />
@@ -88,15 +82,8 @@ const View = ({ weather }) => {
 
       <div className="line"></div>
 
-
-
       <div className="days-forecast">
         <div className="days-forecast__list">
-
-          {/* Add top navigation buttons */}
-          <div className="swiper-button-prev top" style={{ transform: 'rotate(90deg)', color: '#fff' }}></div>
-          <div className="swiper-button-next top" style={{ transform: 'rotate(90deg)', color: '#fff' }}></div>
-
           {weather.daily.map((day, index) => (
             <div className="days-forecast__item" key={index}>
               <img src={day.img} alt="weather" className="days-forecast__img" />
