@@ -1,34 +1,36 @@
 import { getImg } from '../components/Data/getImg'
 
 class WeatherService {
-    _apiKey = '9ee379df28e24468b01dce21275faecc';
+    _apiKey = localStorage.getItem('apikey');  //9ee379df28e24468b01dce21275faecc
     _apiBase = 'https://api.openweathermap.org/data/3.0/onecall';
-    _lat = '52.0944791';
-    _lon = '23.759782';
+    _lat = '39.099724';
+    _lon = '-94.578331';
     _limit = 5;
     _units = 'metric';
 
 
-    getPosition = async () => {
+    getPosition = () => {
         const success = (position) => {
-            this._lat = position.coords.latitude;
-            this._lon = position.coords.longitude;
-            console.log(this._lat)
-            this.getWeather();
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            this.getWeather(latitude, longitude)
         }
 
         const error = () => {
             console.log("Unable to retrieve your location");
-            console.log(this._lat)
-            this.getWeather();
+            this.getWeather(this._lat, this._lon)
         }
 
         if (!navigator.geolocation) {
             console.log("Geolocation is not supported by your browser");
         } else {
+            console.log("Locating…");
             navigator.geolocation.getCurrentPosition(success, error);
         }
     }
+
+
+
 
     getResource = async (url) => {
         let res = await fetch(url);
@@ -43,8 +45,8 @@ class WeatherService {
         const res = await this.getResource(apiUrl);
         return res.map(this._townList);
     }
-    getWeather = async (apikey = this._apiKey) => {
-        const apiUrl = `${this._apiBase}?lat=${this._lat}&lon=${this._lon}&units=${this._units}&appid=${apikey}`;
+    getWeather = async (lat, lon) => {
+        const apiUrl = `${this._apiBase}?lat=${lat}&lon=${lon}&units=${this._units}&appid=${this._apiKey}`;
         console.log(apiUrl);
         const res = await this.getResource(apiUrl);
         const current = this._currentTransform(res.current);

@@ -5,21 +5,47 @@ import HorlyInfo from "../HorlyInfo/HorlyInfo";
 import CurrentInfo from "../CurrentInfo/CurrentInfo";
 import WeatherService from "../../services/WeatherService";
 
+
 class App extends Component {
+    weatherService = new WeatherService();
     constructor(props) {
         super(props);
         this.state = {
-            apiKey: localStorage.getItem("apikey"),
             weatherData: null,
-            showEntWindow: !localStorage.getItem("apikey"), // Проверяем, есть ли сохраненный ключ
+            isLoading: true,
+            hasError: false,
+            showEntWindow: !localStorage.getItem("apikey"),
         };
+    }
+
+    onLoad = (weatherData) => {
+        this.setState({
+            weatherData,
+            isLoading: false,
+        });
+    }
+
+    updateWeather = () => {
+        this.weatherService.getPosition()
+            .finally(this.onLoad)
+            .catch(() => this.onError());
+    }
+
+    onError = () => {
+        this.setState({
+            hasError: true,
+            isLoading: false,
+        });
+    }
+
+    componentDidMount() {
+        this.updateWeather();
     }
 
     handleApiKeyChange = (newApiKey) => {
         localStorage.setItem('apikey', newApiKey);
         this.setState({
-            apiKey: newApiKey,
-            showEntWindow: false, // После ввода ключа скрываем окно ввода
+            showEntWindow: false,
         });
     };
 
@@ -29,7 +55,7 @@ class App extends Component {
     };
 
     render() {
-        const { weatherData, apiKey, showEntWindow } = this.state;
+        const { weatherData, isLoading, hasError, showEntWindow } = this.state;
         return (
             <div className="container">
                 {showEntWindow ? (
@@ -38,13 +64,17 @@ class App extends Component {
                         onWeatherData={this.handleWeatherData}
                     />
                 ) : (
-                    <Fragment>
-                        <BasicInfo />
+                    <>
+                        <BasicInfo
+                            weatherData={weatherData}
+                            isLoading={isLoading}
+                            hasError={hasError}
+                        />
                         <div className="right">
                             <HorlyInfo weatherData={weatherData} />
                             <CurrentInfo weatherData={weatherData} />
                         </div>
-                    </Fragment>
+                    </>
                 )}
             </div>
         );

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import WeatherService from '../../services/WeatherService';
 import Spinner from '../Spiner/Spiner';
 import ErrorMassege from '../ErrorMassage/ErrorMassage';
@@ -6,65 +6,10 @@ import BasicInput from '../BasicInput/BasicInput';
 
 import './BasicInfo.scss';
 
+const View = ({ weather, isLoading, hasError }) => {
+  if (isLoading) return <Spinner />;
+  if (hasError) return <ErrorMassege />;
 
-class BasicInfo extends Component {
-  weatherService = new WeatherService();
-
-  state = {
-    weather: {},
-    error: false,
-    loading: true,
-  }
-
-  // onError = () => {
-  //   this.setState({
-  //     error: true,
-  //     loading: false
-  //   });
-  // }
-
-  // onLoading = () => {
-  //   this.setState({
-  //     loading: true,
-  //   })
-  // }
-
-  // onLoad = (weather) => {
-  //   this.setState({
-  //     weather,
-  //     loading: false
-  //   });
-  //   console.log(this.state.weather);
-  // }
-
-  // updateWeather = () => {
-  //   this.onLoading();
-  //   this.weatherService.getWeather(localStorage.getItem('apikey'))
-  //     .then(this.onLoad)
-  //     .catch(this.onError);
-  // }
-
-  // componentDidMount() {
-  //   this.updateWeather();
-  // }
-
-  render() {
-    const { weather, loading, error } = this.state;
-    const errorMassage = error ? <ErrorMassege /> : null;
-    const spinner = loading ? <Spinner /> : null;
-    const content = !(loading || error) ? <View weather={weather} /> : null;
-
-    return (
-      <div className="info__block">
-        {errorMassage}
-        {spinner}
-        {content}
-      </div>
-    );
-  }
-}
-
-const View = ({ weather }) => {
   return (
     <>
       <BasicInput />
@@ -96,6 +41,10 @@ const View = ({ weather }) => {
       </div>
     </>
   )
+}
+
+const BasicInfo = ({ weatherData, isLoading, hasError }) => {
+  return <View weather={weatherData} isLoading={isLoading} hasError={hasError} />;
 }
 
 export default BasicInfo;
