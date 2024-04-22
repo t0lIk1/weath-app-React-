@@ -44,6 +44,9 @@ class App extends Component {
             // Pass the callback function to WeatherService
             this.weatherService.onWeatherDataReady = this.handleWeatherDataReady;
         }
+        this.setState = {
+            isLoading: false
+        }
         this.weatherService.getPosition()
 
     }

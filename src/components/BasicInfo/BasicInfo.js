@@ -6,9 +6,7 @@ import BasicInput from '../BasicInput/BasicInput';
 
 import './BasicInfo.scss';
 
-const View = ({ weather, isLoading, hasError }) => {
-  if (isLoading) return <Spinner />;
-  if (hasError) return <ErrorMassege />;
+const View = ({ weather }) => {
 
   return (
     <>
@@ -27,7 +25,7 @@ const View = ({ weather, isLoading, hasError }) => {
 
       <div className="line"></div>
 
-      <div className="days-forecast">
+      <div className="days-forecast" >
         <div className="days-forecast__list">
           {weather.daily.map((day, index) => (
             <div className="days-forecast__item" key={index}>
@@ -44,7 +42,16 @@ const View = ({ weather, isLoading, hasError }) => {
 }
 
 const BasicInfo = ({ weatherData, isLoading, hasError }) => {
-  return <View weather={weatherData} isLoading={isLoading} hasError={hasError} />;
+  const loading = (isLoading) ? <Spinner /> : null;
+  const errorMassage = (hasError) ? <ErrorMassege /> : null;
+  const content = !(loading || errorMassage) ? <View weather={weatherData} weather={weatherData} isLoading={isLoading} hasError={hasError} /> : null
+  return (
+    <div className='info__block'>
+      {loading}
+      {errorMassage}
+      {content}
+    </div>
+  )
 }
 
 export default BasicInfo;
