@@ -5,9 +5,7 @@ import HorlyInfo from "../HorlyInfo/HorlyInfo";
 import CurrentInfo from "../CurrentInfo/CurrentInfo";
 import WeatherService from "../../services/WeatherService";
 
-
 class App extends Component {
-    weatherService = new WeatherService();
     constructor(props) {
         super(props);
         this.state = {
@@ -15,43 +13,52 @@ class App extends Component {
             isLoading: true,
             hasError: false,
             showEntWindow: !localStorage.getItem("apikey"),
+            apiKey: localStorage.getItem("apikey"),
         };
+        this.handleWeatherDataReady = this.handleWeatherDataReady.bind(this);
     }
 
-    onLoad = (weatherData) => {
+    handleWeatherDataReady(weatherData) {
         this.setState({
             weatherData,
             isLoading: false,
-        });
-    }
-
-    updateWeather = () => {
-        this.weatherService.getPosition()
-            .finally(this.onLoad)
-            .catch(() => this.onError());
-    }
-
-    onError = () => {
-        this.setState({
-            hasError: true,
-            isLoading: false,
+            hasError: false
         });
     }
 
     componentDidMount() {
-        this.updateWeather();
+        if (!this.state.showEntWindow) {
+            this.updateWeather();
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.apiKey !== this.state.apiKey) {
+            this.updateWeather();
+        }
+    }
+
+    updateWeather = () => {
+        if (!this.weatherService) {
+            this.weatherService = new WeatherService();
+            // Pass the callback function to WeatherService
+            this.weatherService.onWeatherDataReady = this.handleWeatherDataReady;
+        }
+        this.weatherService.getPosition()
+
     }
 
     handleApiKeyChange = (newApiKey) => {
         localStorage.setItem('apikey', newApiKey);
         this.setState({
             showEntWindow: false,
+            apiKey: newApiKey
         });
     };
 
     handleWeatherData = (data) => {
         console.log(data);
-        this.setState({ weatherData: data });
+        this.setState({ weatherData: data, isLoading: false, hasError: false });
     };
 
     render() {
@@ -65,6 +72,7 @@ class App extends Component {
                     />
                 ) : (
                     <>
+                        <WeatherService onWeatherDataReady={this.handleWeatherDataReady} />
                         <BasicInfo
                             weatherData={weatherData}
                             isLoading={isLoading}

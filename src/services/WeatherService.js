@@ -1,25 +1,37 @@
-import { getImg } from '../components/Data/getImg'
+import React, { Component } from 'react';
+import { getImg } from '../components/Data/getImg';
+const weatherDataReadyEvent = new Event('weatherDataReady');
+class WeatherService extends Component {
 
-class WeatherService {
-    _apiKey = localStorage.getItem('apikey');  //9ee379df28e24468b01dce21275faecc
-    _apiBase = 'https://api.openweathermap.org/data/3.0/onecall';
-    _lat = '39.099724';
-    _lon = '-94.578331';
-    _limit = 5;
-    _units = 'metric';
+    state = {
+        apiKey: localStorage.getItem('apikey'),
+        lat: '39.099724',
+        lon: '-94.578331',
+        limit: 5,
+        units: 'metric',
+    };
 
+    componentDidUpdate(prevProps, prevState) {
+        if (this.state.weatherData !== prevState.weatherData) {
+            this.refs.weatherService.dispatchEvent(weatherDataReadyEvent);
+        }
+    }
+
+    componentDidMount() {
+        this.getPosition();
+    }
 
     getPosition = () => {
         const success = (position) => {
             const latitude = position.coords.latitude;
             const longitude = position.coords.longitude;
-            this.getWeather(latitude, longitude)
-        }
+            this.getWeather(latitude, longitude);
+        };
 
         const error = () => {
             console.log("Unable to retrieve your location");
-            this.getWeather(this._lat, this._lon)
-        }
+            this.getWeather(this.state.lat, this.state.lon);
+        };
 
         if (!navigator.geolocation) {
             console.log("Geolocation is not supported by your browser");
@@ -27,41 +39,40 @@ class WeatherService {
             console.log("Locating…");
             navigator.geolocation.getCurrentPosition(success, error);
         }
-    }
-
-
-
+    };
 
     getResource = async (url) => {
         let res = await fetch(url);
         if (!res.ok) {
             throw new Error(`Could not fetch ${url}, status: ${res.status}`);
         }
-
         return await res.json();
-    }
+    };
+
     getCoord = async (town) => {
-        const apiUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${town}&limit=${this._limit}&appid=9ee379df28e24468b01dce21275faecc`;
+        const apiUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${town}&limit=${this.state.limit}&appid=${this.state.apiKey}`;
         const res = await this.getResource(apiUrl);
         return res.map(this._townList);
-    }
-    getWeather = async (lat, lon) => {
-        const apiUrl = `${this._apiBase}?lat=${lat}&lon=${lon}&units=${this._units}&appid=${this._apiKey}`;
+    };
+
+    getWeather = async (apikey = this.state.apiKey, lat = this.state.lat, lon = this.state.lon) => {
+        const apiUrl = `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&units=${this.state.units}&appid=${apikey}`;
         console.log(apiUrl);
         const res = await this.getResource(apiUrl);
         const current = this._currentTransform(res.current);
         const hourly = res.hourly.map(this._hourlyTransform);
         const daily = res.daily.map(this._dailyTransform);
-        const data = { current: current, hourly: hourly, daily: daily }
+        const data = { current: current, hourly: hourly, daily: daily };
+        console.log(data)
         return data;
-    }
+    };
 
     translateTime = (time) => {
         const date = new Date(time * 1000);
         const hours = date.getUTCHours().toString().padStart(2, '0');
         const minutes = date.getUTCMinutes().toString().padStart(2, '0');
         return `${hours}:${minutes}`;
-    }
+    };
 
     translateDeg = (deg) => {
         let direction = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
@@ -70,9 +81,9 @@ class WeatherService {
         }
         let significance = Math.round(deg / 45);
         return direction[significance];
-    }
+    };
 
-    translateDate(utcDate) {
+    translateDate = (utcDate) => {
         const months = [
             'Jan', 'Feb', 'Mar', 'Apr', 'May', 'June',
             'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
@@ -82,15 +93,13 @@ class WeatherService {
             'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'
         ];
 
-
-
         const date = new Date(utcDate * 1000);
         const dayOfMonth = date.getUTCDate();
         const month = months[date.getUTCMonth()];
         const dayOfWeek = daysOfWeek[date.getUTCDay()];
 
         return `${dayOfWeek}, ${month} ${dayOfMonth} `;
-    }
+    };
 
     _currentTransform = (weather) => {
         return {
@@ -107,7 +116,7 @@ class WeatherService {
             main: weather.weather[0].main,
             img: getImg(weather.weather[0].main),
         };
-    }
+    };
 
     _hourlyTransform = (weather) => {
         return {
@@ -117,7 +126,7 @@ class WeatherService {
             main: weather.weather[0].main,
             img: getImg(weather.weather[0].main),
         };
-    }
+    };
 
     _dailyTransform = (weather) => {
         return {
@@ -127,15 +136,17 @@ class WeatherService {
             img: getImg(weather.weather[0].main),
         };
     }
-
     _townList = (data) => {
         return {
             lat: data.lat,
             lon: data.lon,
             country: data.country,
             name: data.local_names.en
-        }
+        };
+    };
 
+    render() {
+        return null; // or your JSX for WeatherService component
     }
 }
 
