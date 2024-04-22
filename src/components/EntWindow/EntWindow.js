@@ -56,7 +56,7 @@ class EntWindow extends Component {
             <div className={`enter ${className}`} style={{ display: displayStyle }}>
                 <h2 className="enter__title">Enter Api key</h2>
                 <span className="enter__text">
-                    The key can be obtained from
+                    The key can be obtained from {' '}
                     <a className="text__link" href="https://openweathermap.org/">
                         openweathermap
                     </a>

@@ -25,12 +25,12 @@ class WeatherService extends Component {
         const success = (position) => {
             const latitude = position.coords.latitude;
             const longitude = position.coords.longitude;
-            this.getWeather(latitude, longitude);
+            this.getWeather(undefined, latitude, longitude);
         };
 
         const error = () => {
             console.log("Unable to retrieve your location");
-            this.getWeather(this.state.lat, this.state.lon);
+            this.getWeather(undefined, this.state.lat, this.state.lon);
         };
 
         if (!navigator.geolocation) {
@@ -55,8 +55,9 @@ class WeatherService extends Component {
         return res.map(this._townList);
     };
 
-    getWeather = async (apikey = this.state.apiKey, lat = this.state.lat, lon = this.state.lon) => {
-        const apiUrl = `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&units=${this.state.units}&appid=${apikey}`;
+    getWeather = async (apiKey = this.state.apiKey, lat = this.state.lat, lon = this.state.lon) => {
+        console.log(apiKey)
+        const apiUrl = `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&units=${this.state.units}&appid=${apiKey}`;
         console.log(apiUrl);
         const res = await this.getResource(apiUrl);
         const current = this._currentTransform(res.current);
