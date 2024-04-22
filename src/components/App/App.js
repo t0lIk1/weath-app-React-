@@ -41,14 +41,16 @@ class App extends Component {
     updateWeather = () => {
         if (!this.weatherService) {
             this.weatherService = new WeatherService();
-            // Pass the callback function to WeatherService
             this.weatherService.onWeatherDataReady = this.handleWeatherDataReady;
         }
-        this.setState = {
-            isLoading: false
-        }
-        this.weatherService.getPosition()
+        this.setState({
+            isLoading: true
+        });
 
+        this.weatherService.getPosition()
+            .then(() => this.weatherService.getWeather())
+            .then(this.onLoading)
+            .catch(this.onError);
     }
 
     handleApiKeyChange = (newApiKey) => {
@@ -59,10 +61,20 @@ class App extends Component {
         });
     };
 
-    handleWeatherData = (data) => {
+    onLoading = (data) => {
         console.log(data);
-        this.setState({ weatherData: data, isLoading: false, hasError: false });
+        this.setState({
+            weatherData: data,
+            isLoading: false,
+            hasError: false
+        });
     };
+    onError = () => {
+        this.setState({
+            hasError: true,
+            isLoading: false
+        })
+    }
 
     render() {
         const { weatherData, isLoading, hasError, showEntWindow } = this.state;
@@ -71,7 +83,7 @@ class App extends Component {
                 {showEntWindow ? (
                     <EntWindow
                         onApiKeyChange={this.handleApiKeyChange}
-                        onWeatherData={this.handleWeatherData}
+                        onWeatherData={this.onLoading}
                     />
                 ) : (
                     <>

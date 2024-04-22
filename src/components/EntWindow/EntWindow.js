@@ -21,7 +21,7 @@ class EntWindow extends Component {
         });
         setTimeout(() => {
             this.props.onApiKeyChange(this.state.value);
-            this.props.onWeatherData(data);
+            this.props.onLoading(data);
             this.setState({
                 displayStyle: 'none',
             });
@@ -43,7 +43,7 @@ class EntWindow extends Component {
         if (e.key === 'Enter') {
             if (this.state.value.trim() !== '') {
                 this.weatherService
-                    .getWeather(this.state.value)
+                    .getWeather(this.state.value, undefined, undefined)
                     .then(this.onCorrect)
                     .catch(this.onError);
             }

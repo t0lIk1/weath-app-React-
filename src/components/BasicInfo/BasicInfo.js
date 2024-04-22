@@ -42,9 +42,10 @@ const View = ({ weather }) => {
 }
 
 const BasicInfo = ({ weatherData, isLoading, hasError }) => {
+  console.log(weatherData)
   const loading = (isLoading) ? <Spinner /> : null;
   const errorMassage = (hasError) ? <ErrorMassege /> : null;
-  const content = !(loading || errorMassage) ? <View weather={weatherData} weather={weatherData} isLoading={isLoading} hasError={hasError} /> : null
+  const content = !(loading || errorMassage) ? <View weather={weatherData} isLoading={isLoading} hasError={hasError} /> : null
   return (
     <div className='info__block'>
       {loading}
