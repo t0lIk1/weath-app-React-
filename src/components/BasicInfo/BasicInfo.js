@@ -3,6 +3,7 @@ import WeatherService from '../../services/WeatherService';
 import Spinner from '../Spiner/Spiner';
 import ErrorMassege from '../ErrorMassage/ErrorMassage';
 import BasicInput from '../BasicInput/BasicInput';
+import { SkeletonTheme, default as Skeleton } from 'react-loading-skeleton';
 
 import './BasicInfo.scss';
 
@@ -42,8 +43,7 @@ const View = ({ weather }) => {
 }
 
 const BasicInfo = ({ weatherData, isLoading, hasError }) => {
-  console.log(weatherData)
-  const loading = (isLoading) ? <Spinner /> : null;
+  const loading = (isLoading) ? <Skeleton /> : null;
   const errorMassage = (hasError) ? <ErrorMassege /> : null;
   const content = !(loading || errorMassage) ? <View weather={weatherData} isLoading={isLoading} hasError={hasError} /> : null
   return (
@@ -54,5 +54,6 @@ const BasicInfo = ({ weatherData, isLoading, hasError }) => {
     </div>
   )
 }
+
 
 export default BasicInfo;

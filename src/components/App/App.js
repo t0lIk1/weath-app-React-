@@ -2,9 +2,9 @@ import React, { Component, Fragment } from 'react';
 import BasicInfo from "../BasicInfo/BasicInfo";
 import EntWindow from "../EntWindow/EntWindow";
 import HorlyInfo from "../HorlyInfo/HorlyInfo";
-import CurrentInfo from "../CurrentInfo/CurrentInfo";
+// import CurrentInfo from "../CurrentInfo/CurrentInfo";
 import WeatherService from "../../services/WeatherService";
-
+import { Skeleton } from 'react-loading-skeleton';
 class App extends Component {
     constructor(props) {
         super(props);
@@ -41,17 +41,19 @@ class App extends Component {
     updateWeather = () => {
         if (!this.weatherService) {
             this.weatherService = new WeatherService();
-            this.weatherService.onWeatherDataReady = this.handleWeatherDataReady;
         }
         this.setState({
             isLoading: true
         });
-
-        this.weatherService.getPosition()
-            .then(() => this.weatherService.getWeather())
-            .then(this.onLoading)
-            .catch(this.onError);
-    }
+        try {
+            this.weatherService.getPosition()
+                .then(coords => this.weatherService.getWeather(undefined, coords.lat, coords.lon))
+                .then(this.onLoading)
+                .catch();
+        } catch (error) {
+            this.onError();
+        }
+    };
 
     handleApiKeyChange = (newApiKey) => {
         localStorage.setItem('apikey', newApiKey);
@@ -71,7 +73,7 @@ class App extends Component {
     };
     onError = () => {
         this.setState({
-            hasError: true,
+            hasError: false,
             isLoading: false
         })
     }
@@ -95,7 +97,7 @@ class App extends Component {
                         />
                         <div className="right">
                             <HorlyInfo weatherData={weatherData} />
-                            <CurrentInfo weatherData={weatherData} />
+                            {/* <CurrentInfo weatherData={weatherData} /> */}
                         </div>
                     </>
                 )}

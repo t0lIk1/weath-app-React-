@@ -21,29 +21,29 @@ class WeatherService extends Component {
         this.getPosition();
     }
 
-    getPosition = () => {
-        return new Promise((resolve, reject) => {
-            const success = (position) => {
-                const latitude = position.coords.latitude;
-                const longitude = position.coords.longitude;
-                resolve({ lat: latitude, lon: longitude });
-            };
-
-            const error = () => {
-                console.log("Unable to retrieve your location");
-                reject(new Error("Unable to retrieve your location"));
-            };
-
-            if (!navigator.geolocation) {
-                console.log("Geolocation is not supported by your browser");
-                reject(new Error("Geolocation is not supported by your browser"));
-            } else {
-                console.log("Locating…");
-                navigator.geolocation.getCurrentPosition(success, error);
-            }
+    getPosition = async () => {
+        const position = await new Promise((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    resolve(position);
+                },
+                (error) => {
+                    reject(error);
+                }
+            );
         });
+
+        if (position.coords) {
+            const { latitude, longitude } = position.coords;
+            return { lat: latitude, lon: longitude };
+        } else {
+            console.log("Разрешение на геолокацию было отказано");
+            return this.state.lat && this.state.lon ? { lat: this.state.lat, lon: this.state.lon } : null;
+        }
     };
-    
+
+
+
     getResource = async (url) => {
         let res = await fetch(url);
         if (!res.ok) {
