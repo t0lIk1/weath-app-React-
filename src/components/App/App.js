@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import BasicInfo from "../BasicInfo/BasicInfo";
 import EntWindow from "../EntWindow/EntWindow";
 import HorlyInfo from "../HorlyInfo/HorlyInfo";
-// import CurrentInfo from "../CurrentInfo/CurrentInfo";
+import CurrentInfo from "../CurrentInfo/CurrentInfo";
 import WeatherService from "../../services/WeatherService";
 import { Skeleton } from 'react-loading-skeleton';
 class App extends Component {
@@ -97,7 +97,7 @@ class App extends Component {
                         />
                         <div className="right">
                             <HorlyInfo weatherData={weatherData} />
-                            {/* <CurrentInfo weatherData={weatherData} /> */}
+                            <CurrentInfo weatherData={weatherData} />
                         </div>
                     </>
                 )}

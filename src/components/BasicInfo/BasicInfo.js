@@ -43,7 +43,7 @@ const View = ({ weather }) => {
 }
 
 const BasicInfo = ({ weatherData, isLoading, hasError }) => {
-  const loading = (isLoading) ? <Skeleton /> : null;
+  const loading = (isLoading) ? <Spinner /> : null;
   const errorMassage = (hasError) ? <ErrorMassege /> : null;
   const content = !(loading || errorMassage) ? <View weather={weatherData} isLoading={isLoading} hasError={hasError} /> : null
   return (
