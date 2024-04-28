@@ -3,16 +3,14 @@ import WeatherService from '../../services/WeatherService';
 import Spinner from '../Spiner/Spiner';
 import ErrorMassege from '../ErrorMassage/ErrorMassage';
 import BasicInput from '../BasicInput/BasicInput';
-import { SkeletonTheme, default as Skeleton } from 'react-loading-skeleton';
 
 import './BasicInfo.scss';
 
-const View = ({ weather }) => {
-
+const View = ({weather}) => {
+  console.log(weather)
   return (
     <>
       <BasicInput />
-
       <div className="basic">
         <img src={(weather.current.img)} alt="weather" className="basic__img" />
         <div className="basic-info">
@@ -42,17 +40,20 @@ const View = ({ weather }) => {
   )
 }
 
-const BasicInfo = ({ weatherData, isLoading, hasError }) => {
-  const loading = (isLoading) ? <Spinner /> : null;
-  const errorMassage = (hasError) ? <ErrorMassege /> : null;
-  const content = !(loading || errorMassage) ? <View weather={weatherData} isLoading={isLoading} hasError={hasError} /> : null
+const BasicInfo = ({ weather, isLoading, hasError }, ) => {
+  console.log(weather);
+  // Check if weatherData.weather is defined before rendering the View component
+  const content = !(isLoading || hasError) ? <View weather={weather} /> : null;
+  const loading = isLoading ? <Spinner /> : null;
+  const errorMessage = hasError ? <ErrorMassege /> : null;
+
   return (
     <div className='info__block'>
       {loading}
-      {errorMassage}
+      {errorMessage}
       {content}
     </div>
-  )
+  );
 }
 
 

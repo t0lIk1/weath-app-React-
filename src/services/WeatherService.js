@@ -10,37 +10,26 @@ class WeatherService extends Component {
         limit: 5,
         units: 'metric',
     };
+    // getPosition = async () => {
+    //     const position = await new Promise((resolve, reject) => {
+    //         navigator.geolocation.getCurrentPosition(
+    //             (position) => {
+    //                 resolve(position);
+    //             },
+    //             (error) => {
+    //                 reject(error);
+    //             }
+    //         );
+    //     });
 
-    componentDidUpdate(prevProps, prevState) {
-        if (this.state.weatherData !== prevState.weatherData) {
-            this.refs.weatherService.dispatchEvent(weatherDataReadyEvent);
-        }
-    }
-
-    componentDidMount() {
-        this.getPosition();
-    }
-
-    getPosition = async () => {
-        const position = await new Promise((resolve, reject) => {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    resolve(position);
-                },
-                (error) => {
-                    reject(error);
-                }
-            );
-        });
-
-        if (position.coords) {
-            const { latitude, longitude } = position.coords;
-            return { lat: latitude, lon: longitude };
-        } else {
-            console.log("Разрешение на геолокацию было отказано");
-            return this.state.lat && this.state.lon ? { lat: this.state.lat, lon: this.state.lon } : null;
-        }
-    };
+    //     if (position.coords) {
+    //         const { latitude, longitude } = position.coords;
+    //         return { lat: latitude, lon: longitude };
+    //     } else {
+    //         console.log("Разрешение на геолокацию было отказано");
+    //         return this.state.lat && this.state.lon ? { lat: this.state.lat, lon: this.state.lon } : null;
+    //     }
+    // };
 
 
 

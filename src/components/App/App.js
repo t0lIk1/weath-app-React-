@@ -1,109 +1,79 @@
-import React, { Component, Fragment } from 'react';
+import React, { useEffect, useState } from 'react';
 import BasicInfo from "../BasicInfo/BasicInfo";
 import EntWindow from "../EntWindow/EntWindow";
 import HorlyInfo from "../HorlyInfo/HorlyInfo";
-import CurrentInfo from "../CurrentInfo/CurrentInfo";
+// import CurrentInfo from "../CurrentInfo/CurrentInfo";
 import WeatherService from "../../services/WeatherService";
-import { Skeleton } from 'react-loading-skeleton';
-class App extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            weatherData: null,
-            isLoading: true,
-            hasError: false,
-            showEntWindow: !localStorage.getItem("apikey"),
-            apiKey: localStorage.getItem("apikey"),
-        };
-        this.handleWeatherDataReady = this.handleWeatherDataReady.bind(this);
-    }
 
-    handleWeatherDataReady(weatherData) {
-        this.setState({
-            weatherData,
-            isLoading: false,
-            hasError: false
-        });
-    }
+const App = () => {
 
-    componentDidMount() {
-        if (!this.state.showEntWindow) {
-            this.updateWeather();
-        }
-    }
+    const weatherService = new WeatherService();
+    const [weatherData, setWeatherData] = useState({});
+    const [isLoading, setIsLoading] = useState(true);
+    const [hasError, setHasError] = useState(false);
+    const [showEntWindow, setShowEntWindow] = useState(!localStorage.getItem("apikey"));
 
-    componentDidUpdate(prevProps, prevState) {
-        if (prevState.apiKey !== this.state.apiKey) {
-            this.updateWeather();
-        }
-    }
+    const [apiKey, setApiKey] = useState(localStorage.getItem("apikey"));
 
-    updateWeather = () => {
-        if (!this.weatherService) {
-            this.weatherService = new WeatherService();
-        }
-        this.setState({
-            isLoading: true
-        });
-        try {
-            this.weatherService.getPosition()
-                .then(coords => this.weatherService.getWeather(undefined, coords.lat, coords.lon))
-                .then(this.onLoading)
-                .catch();
-        } catch (error) {
-            this.onError();
-        }
+    // const handleWeatherDataReady = (weatherData) => {
+    //     setWeatherData(weatherData);
+    //     setIsLoading(false);
+    //     setHasError(false);
+    // }
+
+
+    useEffect(() => {
+        console.log('effect');
+        updateWeather()
+        console.log(weatherData)
+    }, [])
+
+    const updateWeather = () => {
+        setIsLoading(true);
+        weatherService.getWeather()
+            .then((onLoading))
     };
 
-    handleApiKeyChange = (newApiKey) => {
+    const handleApiKeyChange = (newApiKey) => {
         localStorage.setItem('apikey', newApiKey);
-        this.setState({
-            showEntWindow: false,
-            apiKey: newApiKey
-        });
+        setShowEntWindow(false);
+        setApiKey(newApiKey);
     };
 
-    onLoading = (data) => {
+    const onLoading = (data) => {
+        setWeatherData(data);
         console.log(data);
-        this.setState({
-            weatherData: data,
-            isLoading: false,
-            hasError: false
-        });
+        setIsLoading(false);
+        setHasError(false);
     };
-    onError = () => {
-        this.setState({
-            hasError: false,
-            isLoading: false
-        })
+
+    const onError = () => {
+        setHasError(true);
+        setIsLoading(false);
     }
 
-    render() {
-        const { weatherData, isLoading, hasError, showEntWindow } = this.state;
-        return (
-            <div className="container">
-                {showEntWindow ? (
-                    <EntWindow
-                        onApiKeyChange={this.handleApiKeyChange}
-                        onWeatherData={this.onLoading}
+    return (
+        <div className="container">
+            {showEntWindow ? (
+                <EntWindow
+                    onApiKeyChange={handleApiKeyChange}
+                    onWeatherData={onLoading}
+                />
+            ) : (
+                <>
+                    <BasicInfo
+                        weather={weatherData}
+                        isLoading={isLoading}
+                        hasError={hasError}
                     />
-                ) : (
-                    <>
-                        <WeatherService onWeatherDataReady={this.handleWeatherDataReady} />
-                        <BasicInfo
-                            weatherData={weatherData}
-                            isLoading={isLoading}
-                            hasError={hasError}
-                        />
-                        <div className="right">
-                            <HorlyInfo weatherData={weatherData} />
-                            <CurrentInfo weatherData={weatherData} />
-                        </div>
-                    </>
-                )}
-            </div>
-        );
-    }
+                    <div className="right">
+                        <HorlyInfo weatherData={weatherData} />
+                        {/* <CurrentInfo weatherData={weatherData} /> */}
+                    </div>
+                </>
+            )}
+        </div>
+    );
 }
 
 export default App;
