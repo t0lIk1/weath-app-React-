@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import BasicInfo from "../BasicInfo/BasicInfo";
 import EntWindow from "../EntWindow/EntWindow";
 import HorlyInfo from "../HorlyInfo/HorlyInfo";
-// import CurrentInfo from "../CurrentInfo/CurrentInfo";
+import CurrentInfo from "../CurrentInfo/CurrentInfo";
 import useWeatherService from '../../services/WeatherService';
 
 const App = () => {
@@ -12,31 +12,36 @@ const App = () => {
     const [weatherData, setWeatherData] = useState(null);
     const [apiKey, setApiKey] = useState(localStorage.getItem("apikey"));
 
-    // const handleWeatherDataReady = (weatherData) => {
-    //     setWeatherData(weatherData);
-    //     setIsLoading(false);
-    //     setHasError(false);
-    // }
+    // useEffect(() => {
+    //     if (!apiKey) {
+    //         setShowEntWindow(true);
+    //     } else {
+    //         getPosition().then(() => {
+    //             updateWeather();
+    //         }).catch(() => {
+    //             if (!weatherData) {
+    //                 getWeather();
+    //             }
+
+    //         });
+    //     }
+    // }, [apiKey, getPosition]);
 
     useEffect(() => {
-        console.log('effect');
-        if (!weatherData) {
-
-            updateWeather()
-        }
+        updateWeather();
     }, [])
 
-
     const updateWeather = async () => {
-            const data = await getWeather();
-            onLoading(data);
+        const data = await getWeather();
+        onLoading(data);
     };
+    
 
-    const handleApiKeyChange = (newApiKey) => {
+    function handleApiKeyChange(newApiKey) {
         localStorage.setItem('apikey', newApiKey);
         setShowEntWindow(false);
         setApiKey(newApiKey);
-    };
+    }
 
     const onLoading = (data) => {
         console.log("load..")
@@ -58,7 +63,7 @@ const App = () => {
                     />
                     <div className="right">
                         <HorlyInfo weatherData={weatherData} />
-                        {/* <CurrentInfo weatherData={weatherData} /> */}
+                        <CurrentInfo weatherData={weatherData} />
                     </div>
                 </>
             )}

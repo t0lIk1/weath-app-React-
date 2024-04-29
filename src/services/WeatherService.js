@@ -3,30 +3,31 @@ import { getImg } from '../components/Data/getImg';
 import { useHtpp } from '../components/hooks/htpp.hooks';
 
 const useWeatherService = () => {
+
     const { request, isLoading, hasError } = useHtpp();
-    const [lat, setLat] = useState('39.099724')
-    const [lon, setLon] = useState('-94.578331')
+    const [lat, setLat] = useState(39.099724)
+    const [lon, setLon] = useState(-94.578331)
     const [apiKey, setApiKey] = useState(localStorage.getItem('apikey'));
     const [units, setUnits] = useState('metric');
     const [limit, setLimit] = useState(5);
 
     const getPosition = async () => {
-        if (!navigator.geolocation) {
-            console.log('Ваш браузер не дружит с геолокацией...');
-        } else {
-            navigator.geolocation.getCurrentPosition(success, error);
-        }
+        return new Promise((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(
+                position => {
+                    const { latitude, longitude } = position.coords;
+                    setLat(latitude);
+                    setLon(longitude);
+                    resolve({ latitude, longitude });
+                },
+                error => {
+                    console.error("Error Code = " + error.code + " - " + error.message);
+                    reject(error);
+                }
+            );
+        });
     };
 
-    const success = (position) => {
-        const { longitude, latitude } = position.coords;
-        setLat(latitude);
-        setLon(longitude);
-    };
-
-    const error = () => {
-        console.log('Не получается определить вашу геолокацию :(');
-    };
 
     async function getCoord(town) {
         const apiUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${town}&limit=${limit}&appid=${apiKey}`;
@@ -124,7 +125,7 @@ const useWeatherService = () => {
             name: data.local_names.en
         };
     };
-    return {getCoord, getWeather, getPosition, isLoading, hasError}
+    return { getCoord, getWeather, getPosition, isLoading, hasError }
 }
 
 export default useWeatherService;

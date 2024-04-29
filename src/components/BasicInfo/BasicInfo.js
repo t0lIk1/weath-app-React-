@@ -3,9 +3,16 @@ import Spinner from '../Spiner/Spiner';
 import ErrorMassege from '../ErrorMassage/ErrorMassage';
 import BasicInput from '../BasicInput/BasicInput';
 
+import { Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+import 'swiper/css/pagination';
+import 'swiper/css';
 import './BasicInfo.scss';
 
+
 const View = ({ weather }) => {
+
 
   return (
     <>
@@ -23,18 +30,27 @@ const View = ({ weather }) => {
 
       <div className="line"></div>
 
-      <div className="days-forecast" >
+      <Swiper className="days-forecast"
+        wrapperClass="days-forecast__list"
+        slideClass="days-forecast__item"
+        modules={[Pagination]}
+        spaceBetween={50}
+        slidesPerView={'auto'}
+        direction={'vertical'}
+        pagination={{ clickable: true }}
+        onSwiper={(swiper) => console.log(swiper)}
+        onSlideChange={() => console.log('slide change')}>
         <div className="days-forecast__list">
           {weather.daily.map((day, index) => (
-            <div className="days-forecast__item" key={index}>
+            <SwiperSlide key={index} className="days-forecast__item">
               <img src={day.img} alt="weather" className="days-forecast__img" />
-              <span className="days-forecast__temp text"> {day.temp}°C</span>
+              <span className="days-forecast__temp text">{day.temp}°C</span>
               <span className="days-forecast__date text">{day.dt}</span>
-            </div>
+            </SwiperSlide>
           ))}
-
         </div>
-      </div>
+
+      </Swiper>
     </>
   )
 }
