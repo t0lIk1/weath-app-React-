@@ -1,73 +1,60 @@
-import React, { Component } from 'react';
+import { useState, useEffect } from 'react';
 import { getImg } from '../components/Data/getImg';
-const weatherDataReadyEvent = new Event('weatherDataReady');
-class WeatherService extends Component {
+import { useHtpp } from '../components/hooks/htpp.hooks';
 
-    state = {
-        apiKey: localStorage.getItem('apikey'),
-        lat: '39.099724',
-        lon: '-94.578331',
-        limit: 5,
-        units: 'metric',
-    };
-    // getPosition = async () => {
-    //     const position = await new Promise((resolve, reject) => {
-    //         navigator.geolocation.getCurrentPosition(
-    //             (position) => {
-    //                 resolve(position);
-    //             },
-    //             (error) => {
-    //                 reject(error);
-    //             }
-    //         );
-    //     });
+const useWeatherService = () => {
+    const { request, isLoading, hasError } = useHtpp();
+    const [lat, setLat] = useState('39.099724')
+    const [lon, setLon] = useState('-94.578331')
+    const [apiKey, setApiKey] = useState(localStorage.getItem('apikey'));
+    const [units, setUnits] = useState('metric');
+    const [limit, setLimit] = useState(5);
 
-    //     if (position.coords) {
-    //         const { latitude, longitude } = position.coords;
-    //         return { lat: latitude, lon: longitude };
-    //     } else {
-    //         console.log("Разрешение на геолокацию было отказано");
-    //         return this.state.lat && this.state.lon ? { lat: this.state.lat, lon: this.state.lon } : null;
-    //     }
-    // };
-
-
-
-    getResource = async (url) => {
-        let res = await fetch(url);
-        if (!res.ok) {
-            throw new Error(`Could not fetch ${url}, status: ${res.status}`);
+    const getPosition = async () => {
+        if (!navigator.geolocation) {
+            console.log('Ваш браузер не дружит с геолокацией...');
+        } else {
+            navigator.geolocation.getCurrentPosition(success, error);
         }
-        return await res.json();
     };
 
-    getCoord = async (town) => {
-        const apiUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${town}&limit=${this.state.limit}&appid=${this.state.apiKey}`;
-        const res = await this.getResource(apiUrl);
-        return res.map(this._townList);
+    const success = (position) => {
+        const { longitude, latitude } = position.coords;
+        setLat(latitude);
+        setLon(longitude);
     };
 
-    getWeather = async (apiKey = this.state.apiKey, lat = this.state.lat, lon = this.state.lon) => {
+    const error = () => {
+        console.log('Не получается определить вашу геолокацию :(');
+    };
+
+    async function getCoord(town) {
+        const apiUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${town}&limit=${limit}&appid=${apiKey}`;
+        const res = await request(apiUrl);
+        return res.map(_townList);
+    }
+
+    const getWeather = async (apikey = apiKey) => {
         console.log(apiKey)
-        const apiUrl = `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&units=${this.state.units}&appid=${apiKey}`;
+        const apiUrl = `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&units=${units}&appid=${apikey}`;
         console.log(apiUrl);
-        const res = await this.getResource(apiUrl);
-        const current = this._currentTransform(res.current);
-        const hourly = res.hourly.map(this._hourlyTransform);
-        const daily = res.daily.map(this._dailyTransform);
+        const res = await request(apiUrl);
+        const current = _currentTransform(res.current);
+        const hourly = res.hourly.map(_hourlyTransform);
+        const daily = res.daily.map(_dailyTransform);
         const data = { current: current, hourly: hourly, daily: daily };
         console.log(data)
         return data;
     };
 
-    translateTime = (time) => {
+    const translateTime = (time) => {
         const date = new Date(time * 1000);
         const hours = date.getUTCHours().toString().padStart(2, '0');
         const minutes = date.getUTCMinutes().toString().padStart(2, '0');
         return `${hours}:${minutes}`;
     };
 
-    translateDeg = (deg) => {
+    const translateDeg = (deg) => {
         let direction = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
         if (deg === 360) {
             return direction[0];
@@ -76,7 +63,7 @@ class WeatherService extends Component {
         return direction[significance];
     };
 
-    translateDate = (utcDate) => {
+    const translateDate = (utcDate) => {
         const months = [
             'Jan', 'Feb', 'Mar', 'Apr', 'May', 'June',
             'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
@@ -94,42 +81,42 @@ class WeatherService extends Component {
         return `${dayOfWeek}, ${month} ${dayOfMonth} `;
     };
 
-    _currentTransform = (weather) => {
+    const _currentTransform = (weather) => {
         return {
-            sunrise: this.translateTime(weather.sunrise),
-            sunset: this.translateTime(weather.sunset),
-            dt: this.translateDate(weather.dt),
+            sunrise: translateTime(weather.sunrise),
+            sunset: translateTime(weather.sunset),
+            dt: translateDate(weather.dt),
             temp: Math.round(weather.temp),
             feelsLike: Math.round(weather.feels_like),
             pressure: weather.pressure,
             humidity: weather.humidity,
             uvi: Math.round(weather.uvi),
             windSpeed: weather.wind_speed,
-            windDeg: this.translateDeg(weather.wind_deg),
+            windDeg: translateDeg(weather.wind_deg),
             main: weather.weather[0].main,
             img: getImg(weather.weather[0].main),
         };
     };
 
-    _hourlyTransform = (weather) => {
+    const _hourlyTransform = (weather) => {
         return {
             temp: Math.round(weather.temp),
-            dt: this.translateTime(weather.dt),
-            windDeg: this.translateDeg(weather.wind_deg),
+            dt: translateTime(weather.dt),
+            windDeg: translateDeg(weather.wind_deg),
             main: weather.weather[0].main,
             img: getImg(weather.weather[0].main),
         };
     };
 
-    _dailyTransform = (weather) => {
+    const _dailyTransform = (weather) => {
         return {
-            dt: this.translateDate(weather.dt),
+            dt: translateDate(weather.dt),
             temp: Math.round(weather.temp.day),
             main: weather.weather[0].main,
             img: getImg(weather.weather[0].main),
         };
     }
-    _townList = (data) => {
+    const _townList = (data) => {
         return {
             lat: data.lat,
             lon: data.lon,
@@ -137,10 +124,7 @@ class WeatherService extends Component {
             name: data.local_names.en
         };
     };
-
-    render() {
-        return null;
-    }
+    return {getCoord, getWeather, getPosition, isLoading, hasError}
 }
 
-export default WeatherService;
+export default useWeatherService;

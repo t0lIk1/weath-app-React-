@@ -1,13 +1,12 @@
 import React from 'react';
-import WeatherService from '../../services/WeatherService';
 import Spinner from '../Spiner/Spiner';
 import ErrorMassege from '../ErrorMassage/ErrorMassage';
 import BasicInput from '../BasicInput/BasicInput';
 
 import './BasicInfo.scss';
 
-const View = ({weather}) => {
-  console.log(weather)
+const View = ({ weather }) => {
+
   return (
     <>
       <BasicInput />
@@ -40,7 +39,7 @@ const View = ({weather}) => {
   )
 }
 
-const BasicInfo = ({ weather, isLoading, hasError }, ) => {
+const BasicInfo = ({ weather, isLoading, hasError }) => {
   console.log(weather);
   // Check if weatherData.weather is defined before rendering the View component
   const content = !(isLoading || hasError) ? <View weather={weather} /> : null;

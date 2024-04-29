@@ -1,18 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import BasicInfo from "../BasicInfo/BasicInfo";
 import EntWindow from "../EntWindow/EntWindow";
 import HorlyInfo from "../HorlyInfo/HorlyInfo";
 // import CurrentInfo from "../CurrentInfo/CurrentInfo";
-import WeatherService from "../../services/WeatherService";
+import useWeatherService from '../../services/WeatherService';
 
 const App = () => {
 
-    const weatherService = new WeatherService();
-    const [weatherData, setWeatherData] = useState({});
-    const [isLoading, setIsLoading] = useState(true);
-    const [hasError, setHasError] = useState(false);
+    const { isLoading, hasError, getWeather, getPosition } = useWeatherService();
     const [showEntWindow, setShowEntWindow] = useState(!localStorage.getItem("apikey"));
-
+    const [weatherData, setWeatherData] = useState(null);
     const [apiKey, setApiKey] = useState(localStorage.getItem("apikey"));
 
     // const handleWeatherDataReady = (weatherData) => {
@@ -21,17 +18,18 @@ const App = () => {
     //     setHasError(false);
     // }
 
-
     useEffect(() => {
         console.log('effect');
-        updateWeather()
-        console.log(weatherData)
+        if (!weatherData) {
+
+            updateWeather()
+        }
     }, [])
 
-    const updateWeather = () => {
-        setIsLoading(true);
-        weatherService.getWeather()
-            .then((onLoading))
+
+    const updateWeather = async () => {
+            const data = await getWeather();
+            onLoading(data);
     };
 
     const handleApiKeyChange = (newApiKey) => {
@@ -41,17 +39,9 @@ const App = () => {
     };
 
     const onLoading = (data) => {
+        console.log("load..")
         setWeatherData(data);
-        console.log(data);
-        setIsLoading(false);
-        setHasError(false);
     };
-
-    const onError = () => {
-        setHasError(true);
-        setIsLoading(false);
-    }
-
     return (
         <div className="container">
             {showEntWindow ? (
