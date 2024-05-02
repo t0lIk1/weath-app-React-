@@ -4,6 +4,9 @@
     background: #161616;
     border-radius: 30px;
     max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
     .basic {
         width: 100%;
@@ -49,13 +52,13 @@
     .line {
         width: 100%;
         border: 1px solid #ffff;
-        margin: 29px 0;
     }
 
 
     .days-forecast {
         width: 100%;
-        height: 100px;
+        height: 200px;
+        border-radius: 0;
 
         &__list {
             padding: 0;

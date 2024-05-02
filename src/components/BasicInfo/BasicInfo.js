@@ -13,7 +13,6 @@ import './BasicInfo.scss';
 
 const View = ({ weather }) => {
 
-
   return (
     <>
       <BasicInput />
@@ -35,7 +34,7 @@ const View = ({ weather }) => {
         slideClass="days-forecast__item"
         modules={[Pagination]}
         spaceBetween={50}
-        slidesPerView={'auto'}
+        slidesPerView={'2'}
         direction={'vertical'}
         pagination={{ clickable: true }}
         onSwiper={(swiper) => console.log(swiper)}

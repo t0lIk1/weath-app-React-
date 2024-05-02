@@ -1,3 +1,5 @@
+
+
 import { useEffect, useState } from 'react';
 import BasicInfo from "../BasicInfo/BasicInfo";
 import EntWindow from "../EntWindow/EntWindow";
@@ -35,7 +37,7 @@ const App = () => {
         const data = await getWeather();
         onLoading(data);
     };
-    
+
 
     function handleApiKeyChange(newApiKey) {
         localStorage.setItem('apikey', newApiKey);
@@ -62,7 +64,10 @@ const App = () => {
                         hasError={hasError}
                     />
                     <div className="right">
-                        <HorlyInfo weatherData={weatherData} />
+                        <HorlyInfo weather={weatherData}
+                            isLoading={isLoading}
+                            hasError={hasError} />
+
                         <CurrentInfo weatherData={weatherData} />
                     </div>
                 </>
