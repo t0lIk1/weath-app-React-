@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { getImg } from '../components/Data/getImg';
 import { useHtpp } from '../components/hooks/htpp.hooks';
 
@@ -11,7 +11,7 @@ const useWeatherService = () => {
     const [units, setUnits] = useState('metric');
     const [limit, setLimit] = useState(5);
 
-    const getPosition = async () => {
+    const getPosition = useCallback(async () => {
         return new Promise((resolve, reject) => {
             navigator.geolocation.getCurrentPosition(
                 position => {
@@ -26,7 +26,9 @@ const useWeatherService = () => {
                 }
             );
         });
-    };
+    }, []);
+
+    
 
 
     async function getCoord(town) {
@@ -35,18 +37,15 @@ const useWeatherService = () => {
         return res.map(_townList);
     }
 
-    const getWeather = async (apikey = apiKey) => {
-        console.log(apiKey)
-        const apiUrl = `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&units=${units}&appid=${apikey}`;
-        console.log(apiUrl);
+    async function getWeather(apiKey) {
+        const apiUrl = `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&units=${units}&appid=${apiKey}`;
         const res = await request(apiUrl);
         const current = _currentTransform(res.current);
         const hourly = res.hourly.map(_hourlyTransform);
         const daily = res.daily.map(_dailyTransform);
         const data = { current: current, hourly: hourly, daily: daily };
-        console.log(data)
         return data;
-    };
+    }
 
     const translateTime = (time) => {
         const date = new Date(time * 1000);

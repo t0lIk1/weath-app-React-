@@ -1,77 +1,60 @@
 // EntWindow.js
 
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import './EntWindow.scss';
-import WeatherService from '../../services/WeatherService';
+import useWeatherService from '../../services/WeatherService';
 
-class EntWindow extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            className: '',
-            displayStyle: 'flex',
-            value: '',
-        };
-        this.weatherService = new WeatherService();
-    }
+const EntWindow = ({ onApiKeyChange }) => {
+    const [name, setName] = useState('');
+    const [style, setStyle] = useState('flex');
+    const [meaning, setMeaning] = useState('');
 
-    onCorrect = (data) => {
-        this.setState({
-            className: 'correct',
-        });
+    const { getWeather } = useWeatherService();
+
+    const onCorrect = (data, apiKey) => {
+        setName('correct');
         setTimeout(() => {
-            this.props.onApiKeyChange(this.state.value);
-            this.props.onLoading(data);
-            this.setState({
-                displayStyle: 'none',
-            });
+            onApiKeyChange(apiKey);
+            setStyle('none');
         }, 1500);
     };
 
-    onError = () => {
-        this.setState({ className: 'incorrect' });
+    const onError = () => {
+        setName('incorrect');
         setTimeout(() => {
-            this.setState({ className: '' });
+            setName('');
         }, 3000);
     };
 
-    handleChange = (e) => {
-        this.setState({ value: e.target.value });
-    };
-
-    handleKeyDown = (e) => {
+    const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
-            if (this.state.value.trim() !== '') {
-                this.weatherService
-                    .getWeather(this.state.value, undefined, undefined)
-                    .then(this.onCorrect)
-                    .catch(this.onError);
+            if (meaning.trim() !== '') {
+                getWeather(meaning)
+                    .then((data) => onCorrect(data, meaning))
+                    .catch(onError);
             }
         }
     };
 
-    render() {
-        const { className, displayStyle, value } = this.state;
-        return (
-            <div className={`enter ${className}`} style={{ display: displayStyle }}>
-                <h2 className="enter__title">Enter Api key</h2>
-                <span className="enter__text">
-                    The key can be obtained from {' '}
-                    <a className="text__link" href="https://openweathermap.org/">
-                        openweathermap
-                    </a>
-                </span>
-                <input
-                    type="text"
-                    placeholder="Api key"
-                    value={value}
-                    className={`enter__input ${className}`}
-                    onChange={this.handleChange}
-                    onKeyDown={this.handleKeyDown}
-                />
-            </div>
-        );
-    }
+    return (
+        <div className={`enter ${name}`} style={{ display: style }}>
+            <h2 className="enter__title">Enter API Key</h2>
+            <span className="enter__text">
+                The key can be obtained from {' '}
+                <a className="text__link" href="https://openweathermap.org/">
+                    openweathermap
+                </a>
+            </span>
+            <input
+                type="text"
+                placeholder="API Key"
+                value={meaning}
+                className={`enter__input ${name}`}
+                onChange={(e) => setMeaning(e.target.value)}
+                onKeyDown={handleKeyDown}
+            />
+        </div>
+    );
 }
 
 export default EntWindow;
