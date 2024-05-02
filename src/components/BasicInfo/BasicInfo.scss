@@ -96,7 +96,8 @@
 
 .swiper-pagination-bullet-active {
     background: white;
-} 
+}
+
 .first-swiper {
     cursor: pointer;
     position: relative;
@@ -112,4 +113,12 @@
 
 .swiper-slide {
     display: flex;
+}
+
+.swiper-vertical>.swiper-pagination-bullets,
+.swiper-pagination-vertical.swiper-pagination-bullets {
+    right: auto;
+    left: auto;
+    bottom: -20%;
+    transform: rotate(90deg)
 }

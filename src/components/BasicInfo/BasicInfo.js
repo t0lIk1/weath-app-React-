@@ -34,7 +34,7 @@ const View = ({ weather }) => {
         slideClass="days-forecast__item"
         modules={[Pagination]}
         spaceBetween={50}
-        slidesPerView={'2'}
+        slidesPerView={'3'}
         direction={'vertical'}
         pagination={{ clickable: true }}
         onSwiper={(swiper) => console.log(swiper)}
