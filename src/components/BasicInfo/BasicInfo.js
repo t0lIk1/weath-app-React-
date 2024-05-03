@@ -1,4 +1,5 @@
 import React from 'react';
+import Skeleton from '@mui/material/Skeleton';
 import Spinner from '../Spiner/Spiner';
 import ErrorMassege from '../ErrorMassage/ErrorMassage';
 import BasicInput from '../BasicInput/BasicInput';
@@ -10,12 +11,38 @@ import 'swiper/css/pagination';
 import 'swiper/css';
 import './BasicInfo.scss';
 
+const ViewSkeleton = () => {
+  return (
+    <div className='skeleton'>
+      <Skeleton sx={{ bgcolor: 'grey.800' }} variant="rectangular" width="100%" height="41px" style={{ borderRadius: "100px" }} className="skeleton_input" />
+      <div className="skeleton_block">
+        <Skeleton sx={{ bgcolor: 'grey.800' }} variant="rectangular" width="80%" height="auto" className="basic__img" />
+        <div className="skeleton_text-block">
+          <Skeleton sx={{ bgcolor: 'grey.800' }} variant="text" width="100%" height="40px" className="basic__img" />
+          <Skeleton sx={{ bgcolor: 'grey.800' }} variant="text" width="100%" height="30px" className="basic__img" />
+          <Skeleton sx={{ bgcolor: 'grey.800' }} variant="text" width="100%" height="20px" className="basic__img" />
+          <Skeleton sx={{ bgcolor: 'grey.800' }} variant="text" width="100%" height="40px" className="basic__img" />
+          <Skeleton sx={{ bgcolor: 'grey.800' }} variant="text" width="100%" height="30px" className="basic__img" />
+          <Skeleton sx={{ bgcolor: 'grey.800' }} variant="text" width="100%" height="20px" className="basic__img" />
 
-const View = ({ weather }) => {
+        </div>
+      </div>
 
+      <div className="line "></div>
+
+    <div className="skeleton_bottom">
+      <Skeleton sx={{ bgcolor: 'grey.800' }} variant="rectangular" width="100%" height="100%" className="basic__img" />
+      <Skeleton sx={{ bgcolor: 'grey.800' }} variant="rectangular" width="100%" height="100%" className="basic__img" />
+      <Skeleton sx={{ bgcolor: 'grey.800' }} variant="rectangular" width="100%" height="100%" className="basic__img" />
+    </div>
+
+    </div>);
+};
+
+const View = ({ weather, getCoord }) => {
   return (
     <>
-      <BasicInput />
+      <BasicInput getCoord={getCoord} />
       <div className="basic">
         <img src={(weather.current.img)} alt="weather" className="basic__img" />
         <div className="basic-info">
@@ -48,17 +75,16 @@ const View = ({ weather }) => {
             </SwiperSlide>
           ))}
         </div>
-
       </Swiper>
     </>
-  )
-}
+  );
+};
 
-const BasicInfo = ({ weather, isLoading, hasError }) => {
+const BasicInfo = ({ weather, isLoading, hasError, getCoord }) => {
   console.log(weather);
   // Check if weatherData.weather is defined before rendering the View component
-  const content = !(isLoading || hasError) ? <View weather={weather} /> : null;
-  const loading = isLoading ? <Spinner /> : null;
+  const content = !(isLoading || hasError) ? <View weather={weather} getCoord={getCoord} /> : null;
+  const loading = isLoading ? <ViewSkeleton /> : null;
   const errorMessage = hasError ? <ErrorMassege /> : null;
 
   return (
@@ -70,5 +96,6 @@ const BasicInfo = ({ weather, isLoading, hasError }) => {
   );
 }
 
-
 export default BasicInfo;
+
+

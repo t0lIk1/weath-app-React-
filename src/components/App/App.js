@@ -10,10 +10,16 @@ import useWeatherService from '../../services/WeatherService';
 const App = () => {
     const { isLoading, hasError, getWeather, getPosition } = useWeatherService();
     const [showEntWindow, setShowEntWindow] = useState(!localStorage.getItem("apikey"));
+    // const [showInput, setShowInput] = useState(false)
     const [weatherData, setWeatherData] = useState(null);
     const [apiKey, setApiKey] = useState(localStorage.getItem("apikey"));
 
     useEffect(() => {
+        updateCoord()
+    }, [apiKey, getPosition]);
+
+
+    const updateCoord = () => {
         if (!apiKey) {
             setShowEntWindow(true);
         } else {
@@ -21,12 +27,11 @@ const App = () => {
                 updateWeather();
             }).catch(() => {
                 if (!weatherData) {
-                    getWeather(apiKey).then((data) => onLoading(data));
+                    getWeather().then((data) => onLoading(data));
                 }
             });
         }
-    }, [apiKey, getPosition]);
-    
+    }
 
     const updateWeather = async () => {
         const data = await getWeather(apiKey);
@@ -43,7 +48,7 @@ const App = () => {
         setWeatherData(data);
     };
 
-    const content = showEntWindow ? <EntWindow onApiKeyChange={handleApiKeyChange} /> : <Content weatherData={weatherData} hasError={hasError} isLoading={isLoading} />;
+    const content = showEntWindow ? <EntWindow onApiKeyChange={handleApiKeyChange} /> : <Content weatherData={weatherData} hasError={hasError} isLoading={isLoading} getCoord={updateCoord} />;
     return (
         <div className="container">
             {content}
@@ -51,10 +56,11 @@ const App = () => {
     );
 }
 
-const Content = ({ weatherData, hasError, isLoading }) => {
+const Content = ({ weatherData, hasError, isLoading, updateCoord }) => {
     return (
         <>
             <BasicInfo
+                getCoord={updateCoord}
                 weather={weatherData}
                 isLoading={isLoading}
                 hasError={hasError}

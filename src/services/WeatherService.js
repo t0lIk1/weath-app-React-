@@ -5,9 +5,9 @@ import { useHtpp } from '../components/hooks/htpp.hooks';
 const useWeatherService = () => {
 
     const { request, isLoading, hasError } = useHtpp();
-    const [lat, setLat] = useState(39.099724)
-    const [lon, setLon] = useState(-94.578331)
-    const [apiKey, setApiKey] = useState(localStorage.getItem('apikey'));
+    const [lat, setLat] = useState('39.099704')
+    const [lon, setLon] = useState('-94.578331')
+    const [key, setKey] = useState(localStorage.getItem('apikey'));
     const [units, setUnits] = useState('metric');
     const [limit, setLimit] = useState(5);
 
@@ -32,12 +32,12 @@ const useWeatherService = () => {
 
 
     async function getCoord(town) {
-        const apiUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${town}&limit=${limit}&appid=${apiKey}`;
+        const apiUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${town}&limit=${limit}&appid=${key}`;
         const res = await request(apiUrl);
         return res.map(_townList);
     }
 
-    async function getWeather(apiKey) {
+    async function getWeather(apiKey = key) {
         const apiUrl = `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&units=${units}&appid=${apiKey}`;
         const res = await request(apiUrl);
         const current = _currentTransform(res.current);
@@ -104,7 +104,7 @@ const useWeatherService = () => {
             dt: translateTime(weather.dt),
             windDeg: translateDeg(weather.wind_deg),
             main: weather.weather[0].main,
-            img: getImg(weather.weather[0].main),
+            img: getImg(weather.weather[0].main)
         };
     };
 
