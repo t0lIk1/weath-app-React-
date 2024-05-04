@@ -1,14 +1,17 @@
+.hourly {
+    max-width: 870px;
+    height: 100%;
+    background: #161616;
+    border-radius: 30px;
+    width: 100%;
+}
+
 .swiper {
     position: relative;
     overflow: hidden;
     list-style: none;
     display: flex;
     align-items: center;
-    border-radius: 30px;
-    width: 870px;
-    height: 100%;
-    background: #161616;
-
 }
 
 .swiper-wrapper {
@@ -69,7 +72,7 @@
 }
 
 
-.swiper{
+.swiper {
     padding: 15px 0;
     display: flex;
     flex-direction: row;
@@ -81,4 +84,14 @@
 .swiper-button-next {
     color: white;
     top: auto;
+}
+
+
+.skeletonHourly {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 15px;
+    /* Добавьте отступы по бокам */
 }

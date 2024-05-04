@@ -7,28 +7,40 @@ import 'swiper/css';
 import rose from "../../resources/img/svg/icons8-роза-ветров-50 2.svg"
 import 'swiper/css/navigation';
 import './HorlyInfo.scss';
+import { Skeleton } from '@mui/material';
+
+
+const ViewSkeleton = () => {
+    return (
+        <div className='skeletonHourly'>
+            <Skeleton sx={{ bgcolor: 'grey.800' }} variant="rectangular" width="20%" height="90%"/> 
+            <Skeleton sx={{ bgcolor: 'grey.800' }} variant="rectangular" width="20%" height="90%"/> 
+            <Skeleton sx={{ bgcolor: 'grey.800' }} variant="rectangular" width="20%" height="90%"/> 
+        </div>
+    );
+};
 
 const HorlyInfo = ({ weather, isLoading, hasError }) => {
     console.log(`weather:${weather}`)
     console.log(weather)
 
-    const loading = isLoading ? <Spinner /> : null;
+    const loading = isLoading ? <ViewSkeleton /> : null;
     const errorMassege = hasError ? <ErrorMassege /> : null;
     const content = !(isLoading || hasError) ? <Hourly weather={weather} /> : null;
 
     return (
-        <>
+        <div className="hourly">
+
             {loading}
             {errorMassege}
             {content}
-        </>
+        </div>
     );
 }
 
 const Hourly = ({ weather }) => {
     return (
         <Swiper
-            className='hourly'
             spaceBetween={15}
             slidesPerView={3.5}
             modules={[Navigation]}

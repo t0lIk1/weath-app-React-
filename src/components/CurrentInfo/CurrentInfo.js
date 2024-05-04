@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './CurrentInfo.scss';
-import Spinner from '../Spiner/Spiner';
 import sunSetIco from '../../resources/img/svg/sunset-white 1.svg'
 import sunRiseIco from '../../resources/img/svg/sunrise-white 1.svg'
 import wind from '../../resources/img/svg/wind 1.svg'
@@ -8,16 +7,40 @@ import windDegIco from '../../resources/img/svg/icons8-роза-ветров-50 
 import humadilityIco from '../../resources/img/svg/pressure-white 1-1.svg'
 import uviIco from '../../resources/img/svg/icons8-uv-index-64 1.svg'
 import pressureIco from '../../resources/img/svg/pressure-white 1.svg'
+import { Skeleton } from '@mui/material';
 
-const CurrentInfo = ({weatherData, isLoading}) => {
+const ViewSkeleton = () => {
+    return (
+        <div className="current-info__grid">
+            <div className="grid__item">
+                <Skeleton sx={{ bgcolor: 'grey.800' }} variant="rectangular" width="90%" height="137px" className="basic__img" />
+            </div>
+            <div className="grid__item">
+                <Skeleton sx={{ bgcolor: 'grey.800' }} variant="rectangular" width="90%" height="137px" className="basic__img" />
+            </div>
+            <div className="grid__item">
+                <Skeleton sx={{ bgcolor: 'grey.800' }} variant="rectangular" width="90%" height="137px" className="basic__img" />
+            </div>
+            <div className="grid__item">
+                <Skeleton sx={{ bgcolor: 'grey.800' }} variant="rectangular" width="90%" height="137px" className="basic__img" />
+            </div>
+            <div className="grid__item">
+                <Skeleton sx={{ bgcolor: 'grey.800' }} variant="rectangular" width="90%" height="137px" className="basic__img" />
+            </div>
+            <div className="grid__item">
+                <Skeleton sx={{ bgcolor: 'grey.800' }} variant="rectangular" width="90%" height="137px" className="basic__img" />
+            </div>
+        </div>
+    )
+}
+
+
+const CurrentInfo = ({ weatherData, isLoading }) => {
 
     // Проверяем, загружены ли данные
     if (isLoading || !weatherData) {
         return (
-            <div className="current-info__grid">
-                {/* Отображаем спиннер во время загрузки */}
-                <Spinner />
-            </div>
+            <ViewSkeleton />
         );
     }
     console.log(weatherData);

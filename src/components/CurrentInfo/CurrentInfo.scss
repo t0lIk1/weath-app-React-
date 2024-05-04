@@ -35,8 +35,7 @@ img {
             /* Adjust according to your design */
         }
 
-        &__info {
-        }
+        &__info {}
 
         &__sun {
             display: flex;
@@ -50,4 +49,9 @@ img {
             }
         }
     }
+}
+
+
+.MuiSkeleton-root {
+    border-radius: 15px;
 }
