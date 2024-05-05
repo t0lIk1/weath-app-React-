@@ -1,15 +1,13 @@
-
-
 body {
     display: flex;
     align-items: center;
     justify-content: center;
-    
-    margin: 0; 
+
+    margin: 0;
     font-family: "Poppins", sans-serif;
     color: #fff;
     background: #1E1E1E;
-   
+
 }
 
 /*Обнуление*/
@@ -109,11 +107,17 @@ h6 {
 .container {
     display: flex;
     gap: 21px;
-   
     max-width: 1437px;
+    // flex-wrap: wrap;
+    /* Добавлено свойство flex-wrap */
 }
 
-.right{
+// .container>* {
+//     flex-basis: calc(100% );
+//     /* Предполагается, что в каждой строке должно быть 3 элемента */
+// }
+
+.right {
     display: flex;
     flex-direction: column;
     justify-content: space-between;

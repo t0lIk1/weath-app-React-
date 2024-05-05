@@ -4,7 +4,6 @@
     padding: 21px;
     background: #161616;
     border-radius: 30px;
-    max-width: 600px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -127,7 +126,7 @@
 
 
 .skeleton {
-    width: 100%;
+    width: 400px;
     height: 100%;
     display: flex;
     flex-direction: column;

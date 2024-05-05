@@ -6,6 +6,9 @@ import EntWindow from "../EntWindow/EntWindow";
 import HorlyInfo from "../HorlyInfo/HorlyInfo";
 import CurrentInfo from "../CurrentInfo/CurrentInfo";
 import useWeatherService from '../../services/WeatherService';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
+
 
 const App = () => {
     const { isLoading, hasError, getWeather, getPosition } = useWeatherService();
@@ -58,20 +61,22 @@ const App = () => {
 
 const Content = ({ weatherData, hasError, isLoading, updateCoord }) => {
     return (
-        <>
-            <BasicInfo
-                getCoord={updateCoord}
-                weather={weatherData}
-                isLoading={isLoading}
-                hasError={hasError}
-            />
-            <div className="right">
-                <HorlyInfo weather={weatherData}
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<><BasicInfo
+                    getCoord={updateCoord}
+                    weather={weatherData}
                     isLoading={isLoading}
-                    hasError={hasError} />
-                <CurrentInfo weatherData={weatherData} />
-            </div>
-        </>
+                    hasError={hasError}
+                />
+                    <div className="right">
+                        <HorlyInfo weather={weatherData}
+                            isLoading={isLoading}
+                            hasError={hasError} />
+                        <CurrentInfo weatherData={weatherData} />
+                    </div></>} />
+            </Routes>
+        </BrowserRouter>
     );
 }
 

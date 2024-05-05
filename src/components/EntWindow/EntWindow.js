@@ -3,10 +3,10 @@
 import React, { useState } from 'react';
 import './EntWindow.scss';
 import useWeatherService from '../../services/WeatherService';
+import { redirect } from 'react-router-dom';
 
 const EntWindow = ({ onApiKeyChange }) => {
     const [name, setName] = useState('');
-    const [style, setStyle] = useState('flex');
     const [meaning, setMeaning] = useState('');
 
     const { getWeather } = useWeatherService();
@@ -15,7 +15,8 @@ const EntWindow = ({ onApiKeyChange }) => {
         setName('correct');
         setTimeout(() => {
             onApiKeyChange(apiKey);
-            setStyle('none');
+            redirect("/")
+            console.log("redirect...")
         }, 1500);
     };
 
@@ -37,7 +38,7 @@ const EntWindow = ({ onApiKeyChange }) => {
     };
 
     return (
-        <div className={`enter ${name}`} style={{ display: style }}>
+        <div className={`enter ${name}`}>
             <h2 className="enter__title">Enter API Key</h2>
             <span className="enter__text">
                 The key can be obtained from {' '}
