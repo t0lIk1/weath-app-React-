@@ -5,21 +5,18 @@ import BasicInfo from "../components/BasicInfo/BasicInfo";
 import HorlyInfo from "../components/HorlyInfo/HorlyInfo";
 import CurrentInfo from "../components/CurrentInfo/CurrentInfo";
 
-
-
 const MainPage = () => {
-  const { isLoading, hasError, getWeather, getPosition, key } = useWeatherService();
+  const { isLoading, hasError, getWeather, getPosition, key, userAccept } = useWeatherService();
   const [weatherData, setWeatherData] = useState(null);
 
   useEffect(() => {
-    updateCoord()
-  }, [key, getPosition]);
-
-  const updateCoord = () => {
-    getPosition().then(() => {
-      updateWeather();
-    })
-  }
+    getPosition()
+  }, []);
+  useEffect(() => {
+    if (userAccept) {
+      updateWeather(); // Then call updateWeather
+    }
+  }, [userAccept]);
 
   const updateWeather = async () => {
     const data = await getWeather();
@@ -34,11 +31,11 @@ const MainPage = () => {
     setWeatherData(data);
   };
 
-  const content = !key ? <EntWindow onApiKeyChange={handleApiKeyChange} /> : <View weatherData={weatherData} hasError={hasError} isLoading={isLoading} getCoord={updateCoord} />;
+  const content = !key ? <EntWindow onApiKeyChange={handleApiKeyChange} /> : <View weatherData={weatherData} hasError={hasError} isLoading={isLoading} getCoord={getPosition} />;
 
   return (
     <>
-      {content}
+      <View weatherData={weatherData} hasError={hasError} isLoading={isLoading} getCoord={getPosition} />
     </>
   )
 }
