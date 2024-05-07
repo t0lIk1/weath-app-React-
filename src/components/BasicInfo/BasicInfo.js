@@ -46,7 +46,7 @@ const View = ({ weather, getCoord }) => {
       <div className="basic">
         <img src={(weather.current.img)} alt="weather" className="basic__img" />
         <div className="basic-info">
-          <h1 className="basic-info__town">Los Angeles</h1>
+          <h1 className="basic-info__town">{weather.current.name}</h1>
           <span className="basic-info__date">{weather.current.dt}</span>
           <h2 className="basic-info__weather">{weather.current.main}</h2>
           <h2 className="basic-info__temp">{weather.current.temp}°C</h2>
