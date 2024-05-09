@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import './EntWindow.scss';
 import useWeatherService from '../../services/WeatherService';
-import { redirect, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 const EntWindow = () => {
   const [name, setName] = useState('');
   const [meaning, setMeaning] = useState('');
