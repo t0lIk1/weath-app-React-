@@ -46,12 +46,12 @@ const useWeatherService = () => {
   async function getWeather(apiKey = key) {
     console.log(userLocation)
     const apiUrl = `https://api.openweathermap.org/data/3.0/onecall?lat=${userLocation.latitude}&lon=${userLocation.longitude}&units=${units}&appid=${apiKey}`;
-    console.log(userLocation)
+    console.log(apiUrl)
     const res = await request(apiUrl);
     if (!key) {
       return
     }
-    const  current = await _currentTransform(res.current);
+    const current = await _currentTransform(res.current);
     const hourly = res.hourly.map(_hourlyTransform);
     console.log(userLocation);
     const daily = res.daily.map(_dailyTransform);
@@ -72,7 +72,7 @@ const useWeatherService = () => {
       return direction[0];
     }
     let significance = Math.round(deg / 45);
-    return direction[significance];
+    return direction[significance - 1];
   };
 
   const translateDate = (utcDate) => {
@@ -95,6 +95,7 @@ const useWeatherService = () => {
 
   const _currentTransform = async (weather) => {
     const cityName = await getTownName(userLocation.latitude, userLocation.longitude);
+    console.log(weather.wind_deg);
     return {
       name: cityName,
       sunrise: translateTime(weather.sunrise),

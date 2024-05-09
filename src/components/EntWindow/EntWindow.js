@@ -3,13 +3,13 @@
 import React, { useState } from 'react';
 import './EntWindow.scss';
 import useWeatherService from '../../services/WeatherService';
-import { redirect } from 'react-router-dom';
+import { redirect, useNavigate } from 'react-router-dom';
 const EntWindow = () => {
   const [name, setName] = useState('');
   const [meaning, setMeaning] = useState('');
 
   const { getWeather } = useWeatherService();
-
+  const navigate = useNavigate();
   function onApiKeyChange(newApiKey) {
     localStorage.setItem('apikey', newApiKey);
   }
@@ -20,7 +20,7 @@ const EntWindow = () => {
       onApiKeyChange(apiKey);
       console.log("redirect...")
     }, 1500);
-    return redirect("/");
+    return navigate("/");
   };
 
   const onError = () => {

@@ -4,21 +4,23 @@ import EntWindow from "../components/EntWindow/EntWindow";
 import BasicInfo from "../components/BasicInfo/BasicInfo";
 import HorlyInfo from "../components/HorlyInfo/HorlyInfo";
 import CurrentInfo from "../components/CurrentInfo/CurrentInfo";
+import { useNavigate } from "react-router-dom"; // Используйте useNavigate вместо redirect
 
 const MainPage = () => {
   const { isLoading, hasError, getWeather, getPosition, key, userAccept } = useWeatherService();
   const [weatherData, setWeatherData] = useState(null);
+  const navigate = useNavigate(); // Создайте функцию навигации
 
   useEffect(() => {
     if (!key) {
-      return
+      navigate('/Enter');
     }
 
-    getPosition()
-  }, [key]);
+    getPosition();
+  }, [key, navigate]);
   useEffect(() => {
     if (userAccept) {
-      updateWeather(); // Then call updateWeather
+      updateWeather();
     }
   }, [userAccept]);
 
@@ -27,24 +29,21 @@ const MainPage = () => {
     onLoading(data);
   };
 
-
-
   const onLoading = (data) => {
     setWeatherData(data);
   };
 
-  const content = !key ? <EntWindow /> : <View weatherData={weatherData} hasError={hasError} isLoading={isLoading} getCoord={getPosition} />;
+  // Используйте navigate для перенаправления
+  const content = !key ? navigate('/Enter') : <View weatherData={weatherData} hasError={hasError} isLoading={isLoading} getCoord={getPosition} />;
 
   return (
     <>
       {content}
     </>
-  )
+  );
 }
 
-
 const View = ({ weatherData, hasError, isLoading, getCoord }) => {
-
   return (
     <div className="container">
       <BasicInfo
@@ -60,8 +59,7 @@ const View = ({ weatherData, hasError, isLoading, getCoord }) => {
         <CurrentInfo weatherData={weatherData} />
       </div>
     </div>
-  )
-
+  );
 }
 
 export default MainPage;
