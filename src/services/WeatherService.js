@@ -6,7 +6,7 @@ const useWeatherService = () => {
 
   const { request, isLoading, hasError } = useHtpp();
   const [userAccept, setUserAccept] = useState(false);
-  const [userLocation, setUserLocation] = useState(null);
+  const [userLocation, setUserLocation] = useState({ latitude: 33.44, longitude: -94.04 });
   // const [lat, setLat] = useState('39.099704')
   // const [lon, setLon] = useState('-94.578331')
   const [key, setKey] = useState(localStorage.getItem('apikey'));
@@ -14,13 +14,17 @@ const useWeatherService = () => {
   const [limit, setLimit] = useState(5);
 
   const getPosition = useCallback(async () => {
+    console.log(userLocation)
     if (navigator.geolocation) {
 
       navigator.geolocation.getCurrentPosition(
         (position) => {
+          console.log(position)
           // save the geolocation coordinates in two variables
           const { latitude, longitude } = position.coords;
+          setUserLocation(null);
           setUserLocation({ latitude, longitude });
+          console.log(userLocation)
           setUserAccept(true);
         })
     }
@@ -40,8 +44,13 @@ const useWeatherService = () => {
   }
 
   async function getWeather(apiKey = key) {
+    console.log(userLocation)
     const apiUrl = `https://api.openweathermap.org/data/3.0/onecall?lat=${userLocation.latitude}&lon=${userLocation.longitude}&units=${units}&appid=${apiKey}`;
+    console.log(userLocation)
     const res = await request(apiUrl);
+    if (!key) {
+      return
+    }
     const  current = await _currentTransform(res.current);
     const hourly = res.hourly.map(_hourlyTransform);
     console.log(userLocation);

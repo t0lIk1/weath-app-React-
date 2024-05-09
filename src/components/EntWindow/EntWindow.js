@@ -4,20 +4,23 @@ import React, { useState } from 'react';
 import './EntWindow.scss';
 import useWeatherService from '../../services/WeatherService';
 import { redirect } from 'react-router-dom';
-
-const EntWindow = ({ onApiKeyChange }) => {
+const EntWindow = () => {
   const [name, setName] = useState('');
   const [meaning, setMeaning] = useState('');
 
   const { getWeather } = useWeatherService();
 
+  function onApiKeyChange(newApiKey) {
+    localStorage.setItem('apikey', newApiKey);
+  }
+
   const onCorrect = (data, apiKey) => {
     setName('correct');
     setTimeout(() => {
       onApiKeyChange(apiKey);
-      redirect("/")
       console.log("redirect...")
     }, 1500);
+    return redirect("/");
   };
 
   const onError = () => {
@@ -26,10 +29,10 @@ const EntWindow = ({ onApiKeyChange }) => {
       setName('');
     }, 3000);
   };
-
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       if (meaning.trim() !== '') {
+        console.log(getWeather(meaning))
         getWeather(meaning)
           .then((data) => onCorrect(data, meaning))
           .catch(onError);

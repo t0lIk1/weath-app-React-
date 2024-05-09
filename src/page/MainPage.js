@@ -10,8 +10,12 @@ const MainPage = () => {
   const [weatherData, setWeatherData] = useState(null);
 
   useEffect(() => {
+    if (!key) {
+      return
+    }
+
     getPosition()
-  }, []);
+  }, [key]);
   useEffect(() => {
     if (userAccept) {
       updateWeather(); // Then call updateWeather
@@ -23,19 +27,17 @@ const MainPage = () => {
     onLoading(data);
   };
 
-  function handleApiKeyChange(newApiKey) {
-    localStorage.setItem('apikey', newApiKey);
-  }
+
 
   const onLoading = (data) => {
     setWeatherData(data);
   };
 
-  const content = !key ? <EntWindow onApiKeyChange={handleApiKeyChange} /> : <View weatherData={weatherData} hasError={hasError} isLoading={isLoading} getCoord={getPosition} />;
+  const content = !key ? <EntWindow /> : <View weatherData={weatherData} hasError={hasError} isLoading={isLoading} getCoord={getPosition} />;
 
   return (
     <>
-      <View weatherData={weatherData} hasError={hasError} isLoading={isLoading} getCoord={getPosition} />
+      {content}
     </>
   )
 }
