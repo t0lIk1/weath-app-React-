@@ -1,0 +1,6 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "basic-input tour",
+  "steps": [],
+  "ref": "feature/Input"
+}

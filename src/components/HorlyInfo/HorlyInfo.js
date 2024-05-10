@@ -1,4 +1,3 @@
-import Spinner from '../Spiner/Spiner';
 import ErrorMassege from '../ErrorMassage/ErrorMassage';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
@@ -13,9 +12,9 @@ import { Skeleton } from '@mui/material';
 const ViewSkeleton = () => {
     return (
         <div className='skeletonHourly'>
-            <Skeleton sx={{ bgcolor: 'grey.800' }} variant="rectangular" width="30%" height="229px"/> 
-            <Skeleton sx={{ bgcolor: 'grey.800' }} variant="rectangular" width="30%" height="229px"/> 
-            <Skeleton sx={{ bgcolor: 'grey.800' }} variant="rectangular" width="30%" height="229px"/> 
+            <Skeleton sx={{ bgcolor: 'grey.800' }} variant="rectangular" width="30%" height="229px" />
+            <Skeleton sx={{ bgcolor: 'grey.800' }} variant="rectangular" width="30%" height="229px" />
+            <Skeleton sx={{ bgcolor: 'grey.800' }} variant="rectangular" width="30%" height="229px" />
         </div>
     );
 };

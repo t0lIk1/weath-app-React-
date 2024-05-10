@@ -32,6 +32,7 @@ const useWeatherService = () => {
 
   async function getCoord(town) {
     const apiUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${town}&limit=${limit}&appid=${key}`;
+    console.log(apiUrl);
     const res = await request(apiUrl);
     return res.map(_townList);
   }
@@ -136,10 +137,10 @@ const useWeatherService = () => {
       lat: data.lat,
       lon: data.lon,
       country: data.country,
-      name: data.local_names.en
+      name: data.name
     };
   };
-  return { getCoord, getWeather, getPosition, isLoading, hasError, key, userAccept }
+  return { getCoord, getWeather, getPosition, isLoading, hasError, key, userAccept, userLocation }
 }
 
 export default useWeatherService;

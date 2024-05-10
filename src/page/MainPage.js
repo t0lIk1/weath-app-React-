@@ -1,28 +1,28 @@
 import { useEffect, useState } from "react";
 import useWeatherService from "../services/WeatherService";
-import EntWindow from "../components/EntWindow/EntWindow";
 import BasicInfo from "../components/BasicInfo/BasicInfo";
 import HorlyInfo from "../components/HorlyInfo/HorlyInfo";
 import CurrentInfo from "../components/CurrentInfo/CurrentInfo";
-import { useNavigate } from "react-router-dom"; // Используйте useNavigate вместо redirect
+import { useNavigate } from "react-router-dom"; 
+import BasicInput from "../components/BasicInput/BasicInput";
 
 const MainPage = () => {
-  const { isLoading, hasError, getWeather, getPosition, key, userAccept } = useWeatherService();
+  const { isLoading, hasError, getWeather, getPosition, key, userAccept, userLocation, getCoord } = useWeatherService();
   const [weatherData, setWeatherData] = useState(null);
-  const navigate = useNavigate(); // Создайте функцию навигации
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     if (!key) {
       navigate('/Enter');
     }
 
-    getPosition();
+    getPosition()
   }, [key, navigate]);
   useEffect(() => {
     if (userAccept) {
       updateWeather();
     }
-  }, [userAccept]);
+  }, [userAccept, userLocation]);
 
   const updateWeather = async () => {
     const data = await getWeather();
@@ -34,7 +34,7 @@ const MainPage = () => {
   };
 
   // Используйте navigate для перенаправления
-  const content = !key ? navigate('/Enter') : <View weatherData={weatherData} hasError={hasError} isLoading={isLoading} getCoord={getPosition} />;
+  const content = !userAccept ? <BasicInput /> : <View weatherData={weatherData} hasError={hasError} isLoading={isLoading} />;
 
   return (
     <>
@@ -43,11 +43,10 @@ const MainPage = () => {
   );
 }
 
-const View = ({ weatherData, hasError, isLoading, getCoord }) => {
+const View = ({ weatherData, hasError, isLoading }) => {
   return (
     <div className="container">
       <BasicInfo
-        getCoord={getCoord}
         weather={weatherData}
         isLoading={isLoading}
         hasError={hasError}

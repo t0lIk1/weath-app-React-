@@ -5,7 +5,7 @@ export const useHtpp = () => {
     const [isLoading, setLoading] = useState(true);
     const [hasError, setError] = useState(null);
 
-    const request = useCallback(async (url, method = 'GET', body = null, ) => {
+    const request = useCallback(async (url, method = 'GET', body = null,) => {
         setLoading(true)
         try {
             const response = await fetch(url, { method, body });
