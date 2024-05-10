@@ -8,45 +8,51 @@ const BasicInput = () => {
   const { getPosition, getCoord } = useWeatherService();
   const [meaning, setMeaning] = useState('');
   const [data, setData] = useState([]);
+  const [showData, setShowData] = useState(false);
   const debouncedSearchTerm = useDebounce(meaning, 1000);
 
   useEffect(() => {
     if (debouncedSearchTerm) {
       updateCoord(debouncedSearchTerm)
     }
+    setShowData(false);
     setData([]);
   }, [debouncedSearchTerm]);
 
   const updateCoord = async (town) => {
     const data = await getCoord(town);
+    setShowData(true);
     setData(data);
   }
 
 
   return (
-    <>
-      <form action="#1" className="search-form">
-        <img src={magi} alt="magi" className="search-form__img" />
+    <div className="form">
+      <form className="search-form">
         <input
           type="text"
           className="search-form__input"
           placeholder="Search for place"
+          style={showData ? { borderRadius: '20px 20px 0 0' } : {}}
           onChange={(e) => { setMeaning(e.target.value) }} />
+        <img src={magi} alt="magi" className="search-form__img" />
         <img src={geo} alt="geo" className="search-form__img-mark" onClick={getPosition} />
       </form>
-      <div className='dorpdown'>
-        {
-          data.map((item, i) => {
-            return (
-              <div className='dropdown_block' key={i}>
-                <span className="dropdown_town">{item.name}</span>
-                <span className="dropdown_country">{item.country}</span>
-              </div>
-            )
-          })
-        }
-      </div>
-    </>
+      {
+        showData && <div className='dropdown'>
+          {
+            data.map((item, i) => {
+              return (
+                <div className='dropdown_block' key={i}>
+                  <span className="dropdown_town">{item.name}</span>
+                  <span className="dropdown_country">{item.country}</span>
+                </div>
+              )
+            })
+          }
+        </div>
+      }
+    </div>
   );
 }
 
