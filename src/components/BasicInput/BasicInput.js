@@ -4,7 +4,7 @@ import './BasicInput.scss';
 import useWeatherService from '../../services/WeatherService';
 import { useEffect, useState } from 'react';
 import useDebounce from '../hooks/useDebounce';
-const BasicInput = () => {
+const BasicInput = ({responsLat}) => {
   const { getPosition, getCoord } = useWeatherService();
   const [meaning, setMeaning] = useState('');
   const [data, setData] = useState([]);
@@ -14,6 +14,7 @@ const BasicInput = () => {
   useEffect(() => {
     if (debouncedSearchTerm) {
       updateCoord(debouncedSearchTerm)
+
     }
     setShowData(false);
     setData([]);
@@ -39,11 +40,12 @@ const BasicInput = () => {
         <img src={geo} alt="geo" className="search-form__img-mark" onClick={getPosition} />
       </form>
       {
-        showData && <div className='dropdown'>
+        showData && <div className='dropdown' >
+          <div className="line"></div>
           {
             data.map((item, i) => {
               return (
-                <div className='dropdown_block' key={i}>
+                <div className='dropdown_block' key={i} onClick={(e) => responsLat(item.lat, item.lon)}>
                   <span className="dropdown_town">{item.name}</span>
                   <span className="dropdown_country">{item.country}</span>
                 </div>

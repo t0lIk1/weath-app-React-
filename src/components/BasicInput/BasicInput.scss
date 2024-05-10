@@ -45,7 +45,6 @@
   font-size: 16px;
   text-align: center;
   color: #fff;
-  border-top: 1px solid #ffffff;
   border-radius: 0 0 20px 20px;
   width: 100%;
   position: absolute;
@@ -53,17 +52,31 @@
   transition: 0.3s ease-in-out;
 
   &_block {
+    animation: visible 0.3s linear forwards; 
     cursor: pointer;
     padding: 12px 15px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    transition: 0.3 ease-in-out;
+    
     &:last-child{
       border-radius: 0 0 20px 20px ;
     }
     &:hover {
+      transition: 0.1s ease-in-out;
       background: #555555;
     }
+  }
+}
+
+@keyframes visible {
+  from {
+    opacity: 0;
+    transform: translateY(-20px); /* Adjust based on your dropdown's initial position */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    height: 100%; /* Ensure this matches the actual height of your dropdown content */
   }
 }

@@ -39,10 +39,10 @@ const ViewSkeleton = () => {
     </div>);
 };
 
-const View = ({ weather }) => {
+const View = ({ weather, responsLat }) => {
   return (
     <>
-      <BasicInput />
+      <BasicInput responsLat={responsLat}/>
       <div className="basic">
         <img src={(weather.current.img)} alt="weather" className="basic__img" />
         <div className="basic-info">
@@ -80,10 +80,10 @@ const View = ({ weather }) => {
   );
 };
 
-const BasicInfo = ({ weather, isLoading, hasError  }) => {
+const BasicInfo = ({ weather, isLoading, hasError, responsLat  }) => {
   console.log(weather);
   // Check if weatherData.weather is defined before rendering the View component
-  const content = !(isLoading || hasError) ? <View weather={weather} /> : null;
+  const content = !(isLoading || hasError) ? <View weather={weather} responsLat={responsLat}/> : null;
   const loading = isLoading ? <ViewSkeleton /> : null;
   const errorMessage = hasError ? <ErrorMassege /> : null;
 

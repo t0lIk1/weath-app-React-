@@ -29,14 +29,14 @@ const useWeatherService = () => {
         })
     }
   }, []);
-
   async function getCoord(town) {
-    const apiUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${town}&limit=${limit}&appid=${key}`;
+    const sanitizedTown = town.replaceAll(' ', '');
+
+    const apiUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${sanitizedTown}&limit=${limit}&appid=${key}`;
     console.log(apiUrl);
     const res = await request(apiUrl);
     return res.map(_townList);
   }
-
 
   const getTownName = async (latitude, longitude) => {
     const apiUrl = `https://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=1&appid=${key}`;
@@ -44,15 +44,15 @@ const useWeatherService = () => {
     return `${res[0].name}, ${res[0].country}`;
   }
 
-  async function getWeather(apiKey = key) {
+  async function getWeather(apiKey = key, latitude = userLocation.latitude, longitude = userLocation.longitude) {
     console.log(userLocation)
-    const apiUrl = `https://api.openweathermap.org/data/3.0/onecall?lat=${userLocation.latitude}&lon=${userLocation.longitude}&units=${units}&appid=${apiKey}`;
+    const apiUrl = `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&units=${units}&appid=${apiKey}`;
     console.log(apiUrl)
     const res = await request(apiUrl);
     if (!key) {
       return
     }
-    const current = await _currentTransform(res.current);
+    const current = await _currentTransform(res.current, latitude, longitude);
     const hourly = res.hourly.map(_hourlyTransform);
     console.log(userLocation);
     const daily = res.daily.map(_dailyTransform);
@@ -94,9 +94,8 @@ const useWeatherService = () => {
     return `${dayOfWeek}, ${month} ${dayOfMonth} `;
   };
 
-  const _currentTransform = async (weather) => {
-    const cityName = await getTownName(userLocation.latitude, userLocation.longitude);
-    console.log(weather.wind_deg);
+  const _currentTransform = async (weather, lat, lon) => {
+    const cityName = await getTownName(lat, lon);
     return {
       name: cityName,
       sunrise: translateTime(weather.sunrise),

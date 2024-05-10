@@ -3,13 +3,13 @@ import useWeatherService from "../services/WeatherService";
 import BasicInfo from "../components/BasicInfo/BasicInfo";
 import HorlyInfo from "../components/HorlyInfo/HorlyInfo";
 import CurrentInfo from "../components/CurrentInfo/CurrentInfo";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 import BasicInput from "../components/BasicInput/BasicInput";
 
 const MainPage = () => {
   const { isLoading, hasError, getWeather, getPosition, key, userAccept, userLocation, getCoord } = useWeatherService();
   const [weatherData, setWeatherData] = useState(null);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!key) {
@@ -24,8 +24,8 @@ const MainPage = () => {
     }
   }, [userAccept, userLocation]);
 
-  const updateWeather = async () => {
-    const data = await getWeather();
+  const updateWeather = async (apiKey = undefined, lat = undefined, lon = undefined) => {
+    const data = await getWeather(apiKey, lat, lon);
     onLoading(data);
   };
 
@@ -33,8 +33,12 @@ const MainPage = () => {
     setWeatherData(data);
   };
 
+  const responsLat = (lat, lon) => {
+    updateWeather(undefined, lat, lon)
+  }
+
   // Используйте navigate для перенаправления
-  const content = !userAccept ? <BasicInput /> : <View weatherData={weatherData} hasError={hasError} isLoading={isLoading} />;
+  const content = false ? <BasicInput /> : <View weatherData={weatherData} hasError={hasError} isLoading={isLoading} responsLat={responsLat} />;
 
   return (
     <>
@@ -43,10 +47,11 @@ const MainPage = () => {
   );
 }
 
-const View = ({ weatherData, hasError, isLoading }) => {
+const View = ({ weatherData, hasError, isLoading, responsLat }) => {
   return (
     <div className="container">
       <BasicInfo
+        responsLat={responsLat}
         weather={weatherData}
         isLoading={isLoading}
         hasError={hasError}
