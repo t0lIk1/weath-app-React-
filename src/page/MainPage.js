@@ -60,7 +60,9 @@ const View = ({ weatherData, hasError, isLoading, responsLat }) => {
         <HorlyInfo weather={weatherData}
           isLoading={isLoading}
           hasError={hasError} />
-        <CurrentInfo weatherData={weatherData} />
+        <CurrentInfo weatherData={weatherData}
+          isLoading={isLoading}
+          hasError={hasError} />
       </div>
     </div>
   );
