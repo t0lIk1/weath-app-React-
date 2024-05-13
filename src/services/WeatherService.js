@@ -1,20 +1,15 @@
 import { useState, useCallback } from 'react';
 import { getImg } from '../components/Data/getImg';
 import { useHtpp } from '../components/hooks/htpp.hooks';
-import { useNavigate } from 'react-router-dom';
-
 const useWeatherService = () => {
 
   const { request, isLoading, hasError } = useHtpp();
   const [userAccept, setUserAccept] = useState(false);
   const [userDecline, setUserDecline] = useState(false); // на 9 и 10 строчке использовать reducer
   const [userLocation, setUserLocation] = useState();
-
   const [key, setKey] = useState(localStorage.getItem('apikey'));
   const [units, setUnits] = useState('metric'); // тоже можно использовать reducer
   const [limit, setLimit] = useState(5);
-
-  const navigate = useNavigate();
 
   const setUserDeclineState = (value) => {
     setUserDecline(value);
@@ -35,7 +30,7 @@ const useWeatherService = () => {
         }, (error) => {
           console.log('qq')
           setUserDecline(true);
-        
+
         }
       )
     }
@@ -55,7 +50,8 @@ const useWeatherService = () => {
     return `${res[0].name}, ${res[0].country}`;
   }
 
-  async function getWeather(apiKey = key, latitude = userLocation.latitude, longitude = userLocation.longitude) {""
+  async function getWeather(apiKey = key, latitude = userLocation.latitude, longitude = userLocation.longitude) {
+    ""
     console.log(latitude, longitude)
     const apiUrl = `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&units=${units}&appid=${apiKey}`;
     console.log(apiUrl)
@@ -150,7 +146,7 @@ const useWeatherService = () => {
       name: data.name
     };
   };
-  return { getCoord, getWeather, getPosition, isLoading, hasError, key, userAccept, userLocation, userDecline, setUserDeclineState}
+  return { getCoord, getWeather, getPosition, isLoading, hasError, key, userAccept, userLocation, userDecline, setUserDeclineState }
 }
 
 export default useWeatherService;
