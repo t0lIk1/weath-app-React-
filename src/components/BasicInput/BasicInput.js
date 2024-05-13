@@ -5,6 +5,7 @@ import useWeatherService from '../../services/WeatherService';
 import { useEffect, useState } from 'react';
 import useDebounce from '../hooks/useDebounce';
 import { useNavigate } from 'react-router-dom';
+
 const BasicInput = ({ responsCoord }) => {
   const { getPosition, getCoord } = useWeatherService();
   const [meaning, setMeaning] = useState('');

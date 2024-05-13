@@ -15,6 +15,11 @@ const useWeatherService = () => {
   const [limit, setLimit] = useState(5);
 
   const navigate = useNavigate();
+
+  const setUserDeclineState = (value) => {
+    setUserDecline(value);
+  };
+
   const getPosition = useCallback(async () => {
     console.log(userLocation)
     if (navigator.geolocation) {
@@ -52,9 +57,6 @@ const useWeatherService = () => {
 
   async function getWeather(apiKey = key, latitude = userLocation.latitude, longitude = userLocation.longitude) {""
     console.log(latitude, longitude)
-    if (!userLocation) {
-      setUserDecline(!userDecline)
-    }
     const apiUrl = `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&units=${units}&appid=${apiKey}`;
     console.log(apiUrl)
     const res = await request(apiUrl);
@@ -148,7 +150,7 @@ const useWeatherService = () => {
       name: data.name
     };
   };
-  return { getCoord, getWeather, getPosition, isLoading, hasError, key, userAccept, userLocation, userDecline}
+  return { getCoord, getWeather, getPosition, isLoading, hasError, key, userAccept, userLocation, userDecline, setUserDeclineState}
 }
 
 export default useWeatherService;

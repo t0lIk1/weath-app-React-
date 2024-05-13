@@ -8,7 +8,9 @@ import { useNavigate } from "react-router-dom";
 import BasicInput from "../components/BasicInput/BasicInput";
 
 const MainPage = () => {
-  const { isLoading, hasError, getWeather, getPosition, key, userAccept, userLocation, userDecline } = useWeatherService();
+  const { isLoading, hasError, getWeather, getPosition, key, userAccept, userLocation, userDecline, setUserDeclineState } = useWeatherService();
+
+  
   const [weatherData, setWeatherData] = useState(null);
   const navigate = useNavigate();
 
@@ -39,9 +41,13 @@ const MainPage = () => {
   };
 
   const responsCoord = (lat, lon) => {
+    if (userDecline) {
+      setUserDeclineState(false)
+    }
     updateWeather(undefined, lat, lon)
-  }
+  };
 
+  // Показывать BasicInput, если пользователь отказался от использования Geolocation API
   const content = userDecline ? <BasicInput responsCoord={responsCoord} /> : <View weatherData={weatherData} hasError={hasError} isLoading={isLoading} responsCoord={responsCoord} />;
 
   return (
