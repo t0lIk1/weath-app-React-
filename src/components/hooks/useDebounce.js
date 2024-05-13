@@ -1,18 +1,19 @@
-
+// hooks/useDebounce.js
 import { useState, useEffect } from 'react';
 
-const useDebounce = (value, delay = 1000) => {
-  const [debouncedValue, setDebouncedValue] = useState(value);
+const useDebounce = (callback, delay = 1000) => {
+  const [debouncedCallback, setDebouncedCallback] = useState(callback);
 
   useEffect(() => {
     const handler = setTimeout(() => {
-      setDebouncedValue(value);
+      setDebouncedCallback(callback);
     }, delay);
     return () => {
       clearTimeout(handler);
     };
-  }, [value, delay]); 
-  return debouncedValue;
+  }, [callback, delay]);
+
+  return debouncedCallback;
 };
 
 export default useDebounce;

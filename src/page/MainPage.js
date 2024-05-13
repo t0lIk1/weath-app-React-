@@ -1,3 +1,4 @@
+// MainPage.js
 import { useEffect, useState } from "react";
 import useWeatherService from "../services/WeatherService";
 import BasicInfo from "../components/BasicInfo/BasicInfo";
@@ -7,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import BasicInput from "../components/BasicInput/BasicInput";
 
 const MainPage = () => {
-  const { isLoading, hasError, getWeather, getPosition, key, userAccept, userLocation, getCoord } = useWeatherService();
+  const { isLoading, hasError, getWeather, getPosition, key, userAccept, userLocation, userDecline } = useWeatherService();
   const [weatherData, setWeatherData] = useState(null);
   const navigate = useNavigate();
 
@@ -15,9 +16,9 @@ const MainPage = () => {
     if (!key) {
       navigate('/Enter');
     }
-
-    getPosition()
+    getPosition();
   }, [key, navigate]);
+
   useEffect(() => {
     if (userAccept) {
       updateWeather();
@@ -26,6 +27,10 @@ const MainPage = () => {
 
   const updateWeather = async (apiKey = undefined, lat = undefined, lon = undefined) => {
     const data = await getWeather(apiKey, lat, lon);
+    if (!data) {
+      navigate('/Input');
+      return;
+    }
     onLoading(data);
   };
 
@@ -33,12 +38,11 @@ const MainPage = () => {
     setWeatherData(data);
   };
 
-  const responsLat = (lat, lon) => {
+  const responsCoord = (lat, lon) => {
     updateWeather(undefined, lat, lon)
   }
 
-  // Используйте navigate для перенаправления
-  const content = false ? <BasicInput /> : <View weatherData={weatherData} hasError={hasError} isLoading={isLoading} responsLat={responsLat} />;
+  const content = userDecline ? <BasicInput responsCoord={responsCoord} /> : <View weatherData={weatherData} hasError={hasError} isLoading={isLoading} responsCoord={responsCoord} />;
 
   return (
     <>
@@ -47,11 +51,11 @@ const MainPage = () => {
   );
 }
 
-const View = ({ weatherData, hasError, isLoading, responsLat }) => {
+const View = ({ weatherData, hasError, isLoading, responsCoord }) => {
   return (
     <div className="container">
       <BasicInfo
-        responsLat={responsLat}
+        responsCoord={responsCoord}
         weather={weatherData}
         isLoading={isLoading}
         hasError={hasError}

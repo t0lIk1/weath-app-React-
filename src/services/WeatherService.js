@@ -1,18 +1,20 @@
 import { useState, useCallback } from 'react';
 import { getImg } from '../components/Data/getImg';
 import { useHtpp } from '../components/hooks/htpp.hooks';
+import { useNavigate } from 'react-router-dom';
 
 const useWeatherService = () => {
 
   const { request, isLoading, hasError } = useHtpp();
   const [userAccept, setUserAccept] = useState(false);
-  const [userLocation, setUserLocation] = useState({ latitude: 33.44, longitude: -94.04 });
-  // const [lat, setLat] = useState('39.099704')
-  // const [lon, setLon] = useState('-94.578331')
+  const [userDecline, setUserDecline] = useState(false);
+  const [userLocation, setUserLocation] = useState();
+
   const [key, setKey] = useState(localStorage.getItem('apikey'));
   const [units, setUnits] = useState('metric');
   const [limit, setLimit] = useState(5);
 
+  const navigate = useNavigate();
   const getPosition = useCallback(async () => {
     console.log(userLocation)
     if (navigator.geolocation) {
@@ -20,13 +22,17 @@ const useWeatherService = () => {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           console.log(position)
-          // save the geolocation coordinates in two variables
           const { latitude, longitude } = position.coords;
           setUserLocation(null);
           setUserLocation({ latitude, longitude });
           console.log(userLocation)
           setUserAccept(true);
-        })
+        }, (error) => {
+          console.log('qq')
+          setUserDecline(true);
+        
+        }
+      )
     }
   }, []);
   async function getCoord(town) {
@@ -44,8 +50,9 @@ const useWeatherService = () => {
     return `${res[0].name}, ${res[0].country}`;
   }
 
-  async function getWeather(apiKey = key, latitude = userLocation.latitude, longitude = userLocation.longitude) {
-    console.log(userLocation)
+  async function getWeather(apiKey = key, latitude = userLocation.latitude, longitude = userLocation.longitude) {""
+    console.log(latitude, longitude)
+    setUserDecline(false)
     const apiUrl = `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&units=${units}&appid=${apiKey}`;
     console.log(apiUrl)
     const res = await request(apiUrl);
@@ -139,7 +146,7 @@ const useWeatherService = () => {
       name: data.name
     };
   };
-  return { getCoord, getWeather, getPosition, isLoading, hasError, key, userAccept, userLocation }
+  return { getCoord, getWeather, getPosition, isLoading, hasError, key, userAccept, userLocation, userDecline}
 }
 
 export default useWeatherService;

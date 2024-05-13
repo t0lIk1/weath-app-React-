@@ -33,7 +33,7 @@ const EntWindow = () => {
     if (e.key === 'Enter') {
       if (meaning.trim() !== '') {
         console.log(getWeather(meaning))
-        getWeather(meaning)
+        getWeather(meaning, 33.44, -94.04)
           .then((data) => onCorrect(data, meaning))
           .catch(onError);
       }
