@@ -7,11 +7,11 @@ const useWeatherService = () => {
 
   const { request, isLoading, hasError } = useHtpp();
   const [userAccept, setUserAccept] = useState(false);
-  const [userDecline, setUserDecline] = useState(false);
+  const [userDecline, setUserDecline] = useState(false); // на 9 и 10 строчке использовать reducer
   const [userLocation, setUserLocation] = useState();
 
   const [key, setKey] = useState(localStorage.getItem('apikey'));
-  const [units, setUnits] = useState('metric');
+  const [units, setUnits] = useState('metric'); // тоже можно использовать reducer
   const [limit, setLimit] = useState(5);
 
   const navigate = useNavigate();
@@ -52,7 +52,9 @@ const useWeatherService = () => {
 
   async function getWeather(apiKey = key, latitude = userLocation.latitude, longitude = userLocation.longitude) {""
     console.log(latitude, longitude)
-    setUserDecline(false)
+    if (!userLocation) {
+      setUserDecline(!userDecline)
+    }
     const apiUrl = `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&units=${units}&appid=${apiKey}`;
     console.log(apiUrl)
     const res = await request(apiUrl);
