@@ -29,6 +29,8 @@ const MainPage = () => {
     }
   }, [userAccept, userLocation, userDecline]);
 
+  
+
   const updateWeather = async (apiKey = undefined, lat = undefined, lon = undefined) => {
     const data = await getWeather(apiKey, lat, lon);
     if (!data) {

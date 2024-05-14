@@ -1,6 +1,5 @@
 import React from 'react';
 import Skeleton from '@mui/material/Skeleton';
-import Spinner from '../Spiner/Spiner';
 import ErrorMassege from '../ErrorMassage/ErrorMassage';
 import BasicInput from '../BasicInput/BasicInput';
 
