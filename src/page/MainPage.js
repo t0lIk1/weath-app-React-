@@ -17,20 +17,21 @@ const MainPage = () => {
   useEffect(() => {
     if (!key) {
       navigate('/Enter');
+    } else {
+      console.log('response....')
+      getPosition();
     }
-    getPosition();
   }, [key, navigate]);
 
   useEffect(() => {
     if (userAccept) {
       updateWeather();
     }
-  }, [userAccept, userLocation]);
+  }, [userAccept, userLocation, userDecline]);
 
   const updateWeather = async (apiKey = undefined, lat = undefined, lon = undefined) => {
     const data = await getWeather(apiKey, lat, lon);
     if (!data) {
-      navigate('/Input');
       return;
     }
     onLoading(data);
@@ -48,7 +49,7 @@ const MainPage = () => {
   };
 
   // Показывать BasicInput, если пользователь отказался от использования Geolocation API
-  const content = userDecline ? <BasicInput responsCoord={responsCoord} /> : <View weatherData={weatherData} hasError={hasError} isLoading={isLoading} responsCoord={responsCoord} />;
+  const content = !key ? null : userDecline ? <BasicInput responsCoord={responsCoord} /> : <View weatherData={weatherData} hasError={hasError} isLoading={isLoading} responsCoord={responsCoord} /> ;
 
   return (
     <>

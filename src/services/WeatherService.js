@@ -23,7 +23,6 @@ const useWeatherService = () => {
         (position) => {
           console.log(position)
           const { latitude, longitude } = position.coords;
-          setUserLocation(null);
           setUserLocation({ latitude, longitude });
           console.log(userLocation)
           setUserAccept(true);
