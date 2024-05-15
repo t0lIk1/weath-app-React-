@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/t0lIk1/weath-app-React-/static/css/main.9dc64b30.css",
-    "main.js": "/t0lIk1/weath-app-React-/static/js/main.3c6377cf.js",
+    "main.js": "/t0lIk1/weath-app-React-/static/js/main.2c67c0c5.js",
     "static/media/thunder.png": "/t0lIk1/weath-app-React-/static/media/thunder.051844104b0f5e450064.png",
     "static/media/rain_thunder.png": "/t0lIk1/weath-app-React-/static/media/rain_thunder.d179b007c0e76c60c043.png",
     "static/media/wind 1.svg": "/t0lIk1/weath-app-React-/static/media/wind 1.d24a262d8dbd62615726d8c0f97c77cf.svg",
@@ -15,10 +15,10 @@
     "static/media/sunset-white 1.svg": "/t0lIk1/weath-app-React-/static/media/sunset-white 1.3f0565279a8f576a3798eda823dbbd79.svg",
     "index.html": "/t0lIk1/weath-app-React-/index.html",
     "main.9dc64b30.css.map": "/t0lIk1/weath-app-React-/static/css/main.9dc64b30.css.map",
-    "main.3c6377cf.js.map": "/t0lIk1/weath-app-React-/static/js/main.3c6377cf.js.map"
+    "main.2c67c0c5.js.map": "/t0lIk1/weath-app-React-/static/js/main.2c67c0c5.js.map"
   },
   "entrypoints": [
     "static/css/main.9dc64b30.css",
-    "static/js/main.3c6377cf.js"
+    "static/js/main.2c67c0c5.js"
   ]
 }
