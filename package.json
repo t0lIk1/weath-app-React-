@@ -2,7 +2,7 @@
   "name": "weath-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://weather-app.com",
+  "homepage": "https://github.com/t0lIk1/weath-app-React-",
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
