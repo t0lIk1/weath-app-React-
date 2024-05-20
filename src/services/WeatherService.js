@@ -5,11 +5,11 @@ const useWeatherService = () => {
 
   const { request, isLoading, hasError } = useHtpp();
   const [userAccept, setUserAccept] = useState(false);
-  const [userDecline, setUserDecline] = useState(false);
+  const [userDecline, setUserDecline] = useState(false); // на 9 и 10 строчке использовать reducer
   const [userLocation, setUserLocation] = useState();
-  const [key] = useState(localStorage.getItem('apikey'));
-  const [units] = useState('metric');
-  const [limit] = useState(5);
+  const [key, setKey] = useState(localStorage.getItem('apikey'));
+  const [units, setUnits] = useState('metric'); // тоже можно использовать reducer
+  const [limit, setLimit] = useState(5);
 
   const setUserDeclineState = (value) => {
     setUserDecline(value);
@@ -33,8 +33,7 @@ const useWeatherService = () => {
         }
       )
     }
-  }, [userLocation]);
-
+  }, []);
   async function getCoord(town) {
     const sanitizedTown = town.replaceAll(' ', '');
 
