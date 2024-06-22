@@ -1,97 +1,88 @@
-.hourly {
-    max-width: 870px;
-    height: 100%;
-    background: #161616;
-    border-radius: 30px;
-    width: 100%;
-}
-
-.swiper {
-    position: relative;
-    overflow: hidden;
-    list-style: none;
-    display: flex;
-    align-items: center;
+.swiperHourly {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  max-width: 100vw;
+  justify-content: center;
+  background: #161616;
+  border-radius: 30px;
 }
 
 .swiper-wrapper {
-    display: flex;
-    align-items: center;
-    padding: 21px 46px;
-    height: 100%;
+  padding: 21px 46px;
 }
 
 .swiper-backface-hidden .swiper-slide {
-    backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 
 
 .swiper-slide {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  cursor: grab;
 
-    &__days {
-        font-weight: 700;
-        font-size: 30px;
-    }
+  &__days {
+    font-weight: 700; 
+    font-size: 30px;
+  }
 
-    &__time {
-        font-weight: 700;
-        font-size: 24px;
-    }
+  &__time {
+    font-weight: 700;
+    font-size: 24px;
+  }
 
-    &__ico-direct {
-        width: 45px;
-    }
+  &__ico-direct {
+    width: 45px;
+  }
 
-    &__direction {
-        font-weight: 500;
-        font-size: 20px;
-    }
+  &__direction {
+    font-weight: 500;
+    font-size: 20px;
+  }
 
-    &__weather-img {
-        width: 90px;
-    }
+  &__weather-img {
+    width: 90px;
+  }
 
-    &__temp {
-        font-weight: 700;
-        font-size: 20px;
-    }
+  &__temp {
+    font-weight: 700;
+    font-size: 20px;
+  }
 }
 
 .swiper-button-prev,
 .swiper-button-next,
 .swiper-button-disabled {
-    color: #fff;
-    width: 43px;
-    height: 0px;
-}
-
-
-.swiper {
-    padding: 15px 0;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
+  color: #fff;
+  width: 43px;
+  height: 0px;
 }
 
 .swiper-button-prev,
 .swiper-button-next {
-    color: white;
-    top: auto;
+  color: white;
+  top: auto;
 }
 
 
 .skeletonHourly {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    padding: 15px;
-    /* Добавьте отступы по бокам */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  /* Добавьте отступы по бокам */
+}
+
+
+
+
+
+.swiper-slide {
+  width: 100%;
 }

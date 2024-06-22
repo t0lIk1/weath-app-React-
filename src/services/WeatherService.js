@@ -29,7 +29,6 @@ const useWeatherService = () => {
         }, (error) => {
           console.log('qq')
           setUserDecline(true);
-
         }
       )
     }
@@ -46,7 +45,7 @@ const useWeatherService = () => {
   const getTownName = async (latitude, longitude) => {
     const apiUrl = `https://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=1&appid=${key}`;
     const res = await request(apiUrl);
-    return `${res[0].name}, ${res[0].country}`;
+    return { name: res[0].name, country: res[0].country };
   }
 
   async function getWeather(apiKey = key, latitude = userLocation.latitude, longitude = userLocation.longitude) {
@@ -102,8 +101,9 @@ const useWeatherService = () => {
 
   const _currentTransform = async (weather, lat, lon) => {
     const cityName = await getTownName(lat, lon);
+    console.log(cityName)
     return {
-      name: cityName,
+      ...cityName,
       sunrise: translateTime(weather.sunrise),
       sunset: translateTime(weather.sunset),
       dt: translateDate(weather.dt),

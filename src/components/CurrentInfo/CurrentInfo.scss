@@ -1,5 +1,5 @@
 img {
-    width: 50px;
+    width: clamp(40px, 45px, 50px);
     height: auto;
 }
 
@@ -8,38 +8,32 @@ img {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, 1fr);
-    gap: 20px 37px;
+    gap: 20px;
+    justify-content: space-between;
+    justify-items: center;
     font-weight: 600;
-    font-size: 16px;
+    font-size: clamp(0.5rem, 2.5vw, 1rem);
 
     .grid__item {
-        padding: 12px 0;
+        padding: 20px 0;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         gap: 15px;
-        border-radius: 30px;
-        width: 265px;
+        border-radius: 25px;
+        max-width: 800px;
+        width: 100%;
         background: #161616;
+        text-align: center;
 
         &__name {
             font-weight: bold;
         }
 
-        &__img {
-            width: 20px;
-            /* Adjust according to your design */
-            height: auto;
-            margin-top: 5px;
-            /* Adjust according to your design */
-        }
-
-        &__info {}
-
         &__sun {
             display: flex;
-            gap: 34px;
+            gap: 20px;
 
             div {
                 display: flex;
@@ -54,4 +48,11 @@ img {
 
 .MuiSkeleton-root {
     border-radius: 15px;
+}
+
+
+@media only screen and (max-width: 700px) {
+    .current-info__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }

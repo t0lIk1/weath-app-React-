@@ -1,13 +1,11 @@
 body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
     margin: 0;
     font-family: "Poppins", sans-serif;
     color: #fff;
     background: #1E1E1E;
-
+    display: grid;
+    justify-content: center;
+    align-items: center;
 }
 
 /*Обнуление*/
@@ -44,14 +42,11 @@ aside {
 
 html,
 body {
-    height: 100%;
-    width: 100%;
+    height: 100vh;
+    width: 100vw;
     font-size: 100%;
     line-height: 1;
     font-size: 14px;
-    -ms-text-size-adjust: 100%;
-    -moz-text-size-adjust: 100%;
-    -webkit-text-size-adjust: 100%;
 }
 
 input,
@@ -103,28 +98,34 @@ h6 {
 }
 
 /*--------------------*/
-
 .container {
     display: flex;
     gap: 21px;
     max-width: 1437px;
-    // flex-wrap: wrap;
-    /* Добавлено свойство flex-wrap */
+    width: 100%;
+    box-sizing: border-box;
 }
-
-// .container>* {
-//     flex-basis: calc(100% );
-//     /* Предполагается, что в каждой строке должно быть 3 элемента */
-// }
 
 .right {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     gap: 32px;
+    overflow: hidden;
 }
 
 .line {
     width: 100%;
     border: 1px solid #ffff;
+}
+
+
+@media only screen and (max-width: 1500px) {
+    .container {
+        flex-direction: column;
+        justify-content: center;
+        padding: 15px;
+    }
+    body {
+        display: block;
+    }
 }

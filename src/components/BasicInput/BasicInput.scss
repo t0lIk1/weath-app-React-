@@ -50,6 +50,7 @@
   position: absolute;
   background: #333232;
   transition: 0.3s ease-in-out;
+  z-index: 1000;
 
   &_block {
     animation: visible 0.3s linear forwards; 
