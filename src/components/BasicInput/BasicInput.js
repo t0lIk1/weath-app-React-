@@ -7,7 +7,7 @@ import useDebounce from '../hooks/useDebounce';
 import { useNavigate } from 'react-router-dom';
 
 const BasicInput = ({ responsCoord }) => {
-  const { getPosition, getCoord } = useWeatherService();
+  const { getCoord } = useWeatherService();
   const [meaning, setMeaning] = useState('');
   const [data, setData] = useState([]);
   const [showData, setShowData] = useState(false);
@@ -51,7 +51,6 @@ const BasicInput = ({ responsCoord }) => {
           style={showData ? { borderRadius: '20px 20px 0 0' } : {}}
           onChange={handleChange} />
         <img src={magi} alt="magi" className="search-form__img" />
-        <img src={geo} alt="geo" className="search-form__img-mark" onClick={getPosition} />
       </form>
       {
         showData && <div className='dropdown' >

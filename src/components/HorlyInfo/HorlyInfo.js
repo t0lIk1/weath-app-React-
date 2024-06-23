@@ -14,19 +14,7 @@ const ViewSkeleton = () => {
       <Skeleton
         sx={{ bgcolor: "grey.800" }}
         variant="rectangular"
-        width="30%"
-        height="229px"
-      />
-      <Skeleton
-        sx={{ bgcolor: "grey.800" }}
-        variant="rectangular"
-        width="30%"
-        height="229px"
-      />
-      <Skeleton
-        sx={{ bgcolor: "grey.800" }}
-        variant="rectangular"
-        width="30%"
+        width="100%"
         height="229px"
       />
     </div>
@@ -54,7 +42,7 @@ const HorlyInfo = ({ weather, isLoading, hasError }) => {
 
 const Hourly = ({ weather }) => {
   return (
-    <Swiper 
+    <Swiper
       className="swiperHourly"
       spaceBetween={15}
       slidesPerView={"auto"}
@@ -62,19 +50,19 @@ const Hourly = ({ weather }) => {
       // wrapperClass='hourly_wrapper'
       navigation
       onSwiper={(swiper) => console.log(swiper)}
-        breakpoints={{
-          // mobile + tablet - 320-990
-          320: {
-            slidesPerView: 1,
-          },
-          1000: {
-            slidesPerView: 2,
-          },
-          // desktop >= 991
-          1600: {
-            slidesPerView: 3,
-          },
-        }}
+      breakpoints={{
+        // mobile + tablet - 320-990
+        320: {
+          slidesPerView: 1,
+        },
+        1000: {
+          slidesPerView: 2,
+        },
+        // desktop >= 991
+        1600: {
+          slidesPerView: 3,
+        },
+      }}
     >
       <div className="swiper_wrapper">
         {weather.hourly.map((hour, i) => (
