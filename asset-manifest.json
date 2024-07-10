@@ -1,24 +1,23 @@
 {
   "files": {
     "main.css": "/weath-app-React-/static/css/main.2e1e8a51.css",
-    "main.js": "/weath-app-React-/static/js/main.763630b0.js",
+    "main.js": "/weath-app-React-/static/js/main.b5f2517e.js",
     "static/media/thunder.png": "/weath-app-React-/static/media/thunder.051844104b0f5e450064.png",
     "static/media/rain_thunder.png": "/weath-app-React-/static/media/rain_thunder.d179b007c0e76c60c043.png",
     "static/media/wind 1.svg": "/weath-app-React-/static/media/wind 1.d24a262d8dbd62615726d8c0f97c77cf.svg",
     "static/media/pressure-white 1-1.svg": "/weath-app-React-/static/media/pressure-white 1-1.5a6a875299cfc051011cb58699beffd1.svg",
     "static/media/pressure-white 1.svg": "/weath-app-React-/static/media/pressure-white 1.debe08b3eba9d1247c04f277ca09842f.svg",
     "static/media/icons8-uv-index-64 1.svg": "/weath-app-React-/static/media/icons8-uv-index-64 1.2d3c606468200b37bbe68160f39ff8e2.svg",
-    "static/media/icons8-маркер-50 2.svg": "/weath-app-React-/static/media/icons8-маркер-50 2.021bddcc03d68b18e4b44f5c3ca4fed5.svg",
     "static/media/icons8-роза-ветров-50 2.svg": "/weath-app-React-/static/media/icons8-роза-ветров-50 2.c0758188544685e47067d4596c560a2d.svg",
     "static/media/icons8-лупа-64 3.svg": "/weath-app-React-/static/media/icons8-лупа-64 3.1b6fb23044b8988394ed0bd9a4c1b953.svg",
     "static/media/sunrise-white 1.svg": "/weath-app-React-/static/media/sunrise-white 1.f4345b9b12efcfc64291a8074db3cc20.svg",
     "static/media/sunset-white 1.svg": "/weath-app-React-/static/media/sunset-white 1.3f0565279a8f576a3798eda823dbbd79.svg",
     "index.html": "/weath-app-React-/index.html",
     "main.2e1e8a51.css.map": "/weath-app-React-/static/css/main.2e1e8a51.css.map",
-    "main.763630b0.js.map": "/weath-app-React-/static/js/main.763630b0.js.map"
+    "main.b5f2517e.js.map": "/weath-app-React-/static/js/main.b5f2517e.js.map"
   },
   "entrypoints": [
     "static/css/main.2e1e8a51.css",
-    "static/js/main.763630b0.js"
+    "static/js/main.b5f2517e.js"
   ]
 }
