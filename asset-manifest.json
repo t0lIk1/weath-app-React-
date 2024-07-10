@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/weath-app-React-/static/css/main.2e1e8a51.css",
-    "main.js": "/weath-app-React-/static/js/main.b5f2517e.js",
+    "main.js": "/weath-app-React-/static/js/main.5a5badd1.js",
     "static/media/thunder.png": "/weath-app-React-/static/media/thunder.051844104b0f5e450064.png",
     "static/media/rain_thunder.png": "/weath-app-React-/static/media/rain_thunder.d179b007c0e76c60c043.png",
     "static/media/wind 1.svg": "/weath-app-React-/static/media/wind 1.d24a262d8dbd62615726d8c0f97c77cf.svg",
@@ -14,10 +14,10 @@
     "static/media/sunset-white 1.svg": "/weath-app-React-/static/media/sunset-white 1.3f0565279a8f576a3798eda823dbbd79.svg",
     "index.html": "/weath-app-React-/index.html",
     "main.2e1e8a51.css.map": "/weath-app-React-/static/css/main.2e1e8a51.css.map",
-    "main.b5f2517e.js.map": "/weath-app-React-/static/js/main.b5f2517e.js.map"
+    "main.5a5badd1.js.map": "/weath-app-React-/static/js/main.5a5badd1.js.map"
   },
   "entrypoints": [
     "static/css/main.2e1e8a51.css",
-    "static/js/main.b5f2517e.js"
+    "static/js/main.5a5badd1.js"
   ]
 }
